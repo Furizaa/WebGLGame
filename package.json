@@ -1,0 +1,11 @@
+{
+    "name": "BindingOfMetroid",
+    "version": "1.0.0",
+    "dependencies": {
+        "grunt": "0.3.17",
+        "grunt-contrib-coffee": "0.3.x",
+        "grunt-contrib-less": "0.3.x",
+        "express": "3.0.x",
+        "jade": "0.27.x"
+    }
+}
