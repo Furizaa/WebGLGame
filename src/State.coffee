@@ -1,27 +1,32 @@
-window.State = class State
+BowShock.State = class State
 
     active: false
+
+    entities: []
 
     constructor: (@name, @input) ->
         @scene = new THREE.Scene()
 
+    addEntitie: (reference, entity) ->
+        @entities[ reference ] = entity if not @entities[ reference ]
+        console.log @entities
+
     load: () ->
-        geometry = new THREE.CubeGeometry 200, 200, 200
-        material = new THREE.MeshBasicMaterial
-            color: 0xff00f0
-            wireframe: true
-        @mesh = new THREE.Mesh geometry, material
-        @scene.add @mesh
-        @
+        scene = @scene
+        for ref, entity of @entities
+            entity.load -> entity.bind scene
+
+    unload: () ->
+        entity.unload() for ref, entity of @entities
 
     update: () ->
-        @mesh.rotation.x += 0.01 if @input.state.jump
-        @mesh.rotation.y += 0.01
+        if @isActive()
+            entity.update(@input) for ref, entity of @entities
 
-    getScene: () =>
+    getScene: () ->
         @scene
 
-    isActive: () =>
+    isActive: () ->
         @active
 
     activate: () ->

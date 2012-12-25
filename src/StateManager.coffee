@@ -1,4 +1,4 @@
-window.StateManager = class StateManager
+BowShock.StateManager = class StateManager
 
     list: []
 

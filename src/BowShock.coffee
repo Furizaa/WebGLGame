@@ -1,0 +1,1 @@
+window.BowShock = class BowShock

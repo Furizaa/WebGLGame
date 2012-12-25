@@ -10,9 +10,9 @@ init = () ->
 
     document.body.appendChild renderer.domElement
 
-    input = new Input()
-    manager = new StateManager renderer, camera
-    state = new State 'cube', input
+    input = new BowShock.Input()
+    manager = new BowShock.StateManager renderer, camera
+    state = new BowShock.StateLevel 'cube', input
     manager.add state.load()
     manager.activate state
 
