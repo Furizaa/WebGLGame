@@ -4,6 +4,7 @@ BowShock.Input = class Input
     @KEY_DOWN    = 83            # S
     @KEY_LEFT    = 65            # A
     @KEY_RIGHT   = 68            # D
+    @KEY_SPACE   = 32            # SPACE
 
     currentKeys = {}
     previousKeys = {}

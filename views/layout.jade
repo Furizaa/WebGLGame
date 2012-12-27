@@ -21,17 +21,22 @@ html(lang='en')
         block headscripts
 
     body#game
+        .debug.debug1 debug1
+        .debug.debug2 debug2
+        .debug.debug3 debug3
 
         //- This is where the magic happens!
         block container
 
         block footscripts
+            script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
             script(src="js/BowShock.js")
-            script(src='js/tree.min.js')
+            script(src='js/three.min.js')
             script(src='js/underscore.min.js')
             script(src='js/Input.js')
             script(src='js/State.js')
             script(src='js/StateManager.js')
+            script(src='js/SpriteAnimation.js')
 
             script(src='js/entity/PlayerEntity.js')
 

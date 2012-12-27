@@ -1,8 +1,8 @@
 manager = null
 
 init = () ->
-    camera = new THREE.PerspectiveCamera( 75, 800 / 600, 1, 10000 )
-    camera.position.z = 1000
+    camera = new THREE.PerspectiveCamera( 60, 800 / 600, 1, 2100 )
+    camera.position.z = 1500
 
     renderer = new THREE.WebGLRenderer()
     renderer.setClearColorHex 0x333333, 1
@@ -10,9 +10,11 @@ init = () ->
 
     document.body.appendChild renderer.domElement
 
-    input = new BowShock.Input()
+    BowShock.input = new BowShock.Input()
+    BowShock.timer = new THREE.Clock true
+
     manager = new BowShock.StateManager renderer, camera
-    state = new BowShock.StateLevel 'cube', input
+    state = new BowShock.StateLevel 'level'
     manager.add state.load()
     manager.activate state
 
@@ -23,6 +25,7 @@ animate = () ->
 
 update = () ->
     requestAnimationFrame update
+    BowShock.delta = BowShock.timer.getDelta()
     manager.update()
 
 init()

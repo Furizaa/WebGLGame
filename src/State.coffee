@@ -4,7 +4,7 @@ BowShock.State = class State
 
     entities: []
 
-    constructor: (@name, @input) ->
+    constructor: (@name) ->
         @scene = new THREE.Scene()
 
     addEntitie: (reference, entity) ->
@@ -21,7 +21,7 @@ BowShock.State = class State
 
     update: () ->
         if @isActive()
-            entity.update(@input) for ref, entity of @entities
+            entity.update() for ref, entity of @entities
 
     getScene: () ->
         @scene
