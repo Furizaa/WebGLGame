@@ -1,16 +1,25 @@
 BowShock.SpriteAnimation = class SpriteAnimation
 
-    constructor: (@frames, @speed) ->
-        @timer = new THREE.Clock true
+    frame:
+        current: -1
+        last:    -1
+
+    constructor: (@sprite, @frames, @speed, @endCallback) ->
         @reset()
 
     reset: () ->
-        @_pointer = 0.0
+        @_pointer = 0
         @
 
     update: () ->
-        @_pointer += @timer.getDelta() * @speed
-        @reset() if Math.round( @_pointer ) >= @frames.length
+        @_pointer += BowShock.delta * @speed
+        rpointer   = Math.round @_pointer
+        @reset()            if rpointer >= @frames.length
+        @endCallback.call() if rpointer == @frames.length and @endCallback
+
+        @frame.current = @getFrame()
+        @sprite.setTile( @frame.current ) if @frame.current != @frame.last
+        @frame.last = @frame.current
         @
 
     stop: () ->
@@ -23,3 +32,6 @@ BowShock.SpriteAnimation = class SpriteAnimation
 
     getFrame: () ->
         @frames[ Math.round( @_pointer ) ]
+
+    getSprite: () ->
+        @sprite

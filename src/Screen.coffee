@@ -1,20 +1,21 @@
-BowShock.State = class State
+BowShock.Screen = class Screen
 
     active: false
 
     entities: []
 
     constructor: (@name) ->
-        @scene = new THREE.Scene()
+        @spriteBatch = new THREE.Scene()
 
-    addEntitie: (reference, entity) ->
+    addEntity: (reference, entity) ->
         @entities[ reference ] = entity if not @entities[ reference ]
-        console.log @entities
+
+    getEntity: (name) ->
+        @entities[ name ]
 
     load: () ->
-        scene = @scene
         for ref, entity of @entities
-            entity.load -> entity.bind scene
+            entity.init()
 
     unload: () ->
         entity.unload() for ref, entity of @entities
@@ -23,8 +24,8 @@ BowShock.State = class State
         if @isActive()
             entity.update() for ref, entity of @entities
 
-    getScene: () ->
-        @scene
+    getSpriteBatch: () ->
+        @spriteBatch
 
     isActive: () ->
         @active

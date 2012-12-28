@@ -2,7 +2,7 @@
 server.js
 public/js/*.js
 public/js/entity
-public/js/state
+public/js/screen
 !public/js/*.min.js
 public/css/core.css
 

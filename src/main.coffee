@@ -1,7 +1,7 @@
 manager = null
 
 init = () ->
-    camera = new THREE.PerspectiveCamera( 60, 800 / 600, 1, 2100 )
+    camera = new THREE.OrthographicCamera( 800 / - 2, 800 / 2, 600 / 2, 600 / - 2, 1, 1000 )
     camera.position.z = 1500
 
     renderer = new THREE.WebGLRenderer()
@@ -13,10 +13,10 @@ init = () ->
     BowShock.input = new BowShock.Input()
     BowShock.timer = new THREE.Clock true
 
-    manager = new BowShock.StateManager renderer, camera
-    state = new BowShock.StateLevel 'level'
-    manager.add state.load()
-    manager.activate state
+    manager = new BowShock.ScreenManager renderer, camera
+    screen = new BowShock.GameScreen 'game'
+    manager.add screen.load()
+    manager.activate screen
 
 
 animate = () ->

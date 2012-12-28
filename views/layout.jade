@@ -25,6 +25,8 @@ html(lang='en')
         .debug.debug2 debug2
         .debug.debug3 debug3
 
+        .debugLayer
+
         //- This is where the magic happens!
         block container
 
@@ -33,13 +35,22 @@ html(lang='en')
             script(src="js/BowShock.js")
             script(src='js/three.min.js')
             script(src='js/underscore.min.js')
+            script(src='js/Vector2.js')
             script(src='js/Input.js')
-            script(src='js/State.js')
-            script(src='js/StateManager.js')
+            script(src='js/SpriteBatch.js')
+            script(src='js/Sprite.js')
+            script(src='js/Collider.js')
+            script(src='js/CollisionManager.js')
+            script(src='js/RectangleCollider.js')
+
+            script(src='js/Screen.js')
+            script(src='js/ScreenManager.js')
             script(src='js/SpriteAnimation.js')
 
+            script(src='js/entity/Entity.js')
             script(src='js/entity/PlayerEntity.js')
+            script(src='js/entity/WorldEntity.js')
 
-            script(src='js/state/Level.js')
+            script(src='js/screen/GameScreen.js')
 
             script(src='js/main.js')
