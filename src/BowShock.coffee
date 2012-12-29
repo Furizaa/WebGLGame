@@ -7,3 +7,9 @@ window.BowShock = class BowShock
 
     @debug: (text, layer = 1) ->
         $('.debug'+layer).text text
+
+    @sign: (value, to) ->
+        if value < 0 then return -to
+        if value > 0 then return to
+        to
+

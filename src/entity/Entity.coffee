@@ -4,7 +4,7 @@ BowShock.Entity = class Entity
 
     position: null
 
-    constructor: (@type) ->
+    constructor: (@type, @collisionManager) ->
         @position = new BowShock.Vector2 0, 0
 
     init: () ->
@@ -25,3 +25,18 @@ BowShock.Entity = class Entity
 
     getColliders: () ->
         @colliders
+
+    collide: (originColliderTag, withTagName) ->
+        collisions = @collisionManager.collide @
+        if collisions.length is 0 then return false
+        for collision in collisions
+            if collision.origin.getTag() is originColliderTag and collision.destination.getTag() is withTagName
+                return true
+        false
+
+    collideAt: (originColliderTag, withTagName, x, y) ->
+        pre = @position
+        @position.set x, y
+        collision = @collide originColliderTag, withTagName
+        @position.copy pre
+        collision

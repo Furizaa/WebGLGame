@@ -1,7 +1,7 @@
 BowShock.RectangleCollider = class RectangleCollider extends BowShock.Collider
 
-    constructor: (@width, @height, @offset, @relative) ->
-        super( @relative )
+    constructor: (@tag, @width, @height, @offset, @relative) ->
+        super( @tag, @relative )
         if BowShock.debug
             @d = $('<div>').addClass('collider')
             $('.debugLayer').append @d
@@ -22,22 +22,17 @@ BowShock.RectangleCollider = class RectangleCollider extends BowShock.Collider
     intersectLine: (start, end) ->
         @intersectPoint( start ) || @intersectPoint( end )
 
-
     getRight: () ->
-        offset = if @relative then (@getEntityPosition().x + @offset.x) else @offset.x
-        offset + @width * 0.5
+        @getOffset().x + @width
 
     getLeft: () ->
-        offset = if @relative then (@getEntityPosition().x + @offset.x) else @offset.x
-        offset - @width * 0.5
+        @getOffset().x
 
     getTop: () ->
-        offset = if @relative then (@getEntityPosition().y + @offset.y) else @offset.x
-        offset - @height * 0.5
+        @getOffset().y
 
     getBottom: () ->
-        offset = if @relative then (@getEntityPosition().y + @offset.y) else @offset.x
-        offset + @height * 0.5
+        @getOffset().y + @height
 
     getTopLeft: () ->
         new BowShock.Vector2 @getLeft(), @getTop()
@@ -50,5 +45,6 @@ BowShock.RectangleCollider = class RectangleCollider extends BowShock.Collider
 
     getBottomRight: () ->
         new BowShock.Vector2 @getRight(), @getBottom()
+
 
 

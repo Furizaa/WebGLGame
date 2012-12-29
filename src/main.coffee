@@ -1,12 +1,15 @@
 manager = null
 
 init = () ->
-    camera = new THREE.OrthographicCamera( 800 / - 2, 800 / 2, 600 / 2, 600 / - 2, 1, 1000 )
+    width  = 1280
+    height = 800
+
+    camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 )
     camera.position.z = 1500
 
     renderer = new THREE.WebGLRenderer()
     renderer.setClearColorHex 0x333333, 1
-    renderer.setSize 800, 600
+    renderer.setSize width, height
 
     document.body.appendChild renderer.domElement
 
