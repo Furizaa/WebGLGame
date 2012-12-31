@@ -10,7 +10,7 @@ BowShock.WorldEntity = class WorldEntity extends BowShock.Entity
         testCollider3 = new BowShock.RectangleCollider "CT_WORLD", 200, 30, BowShock.v2(450, 350),  true
 
 
-        floor = new BowShock.RectangleCollider "CT_WORLD", 800, 50, BowShock.v2(0, 550),  true
+        floor = new BowShock.RectangleCollider "CT_WORLD", 1200, 50, BowShock.v2(0, 550),  true
 
         @collisionManager.registerCollider testCollider1, @
         @collisionManager.registerCollider testCollider2, @

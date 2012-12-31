@@ -2,6 +2,8 @@ BowShock.Screen = class Screen
 
     active: false
 
+    loaded: false
+
     entities: []
 
     constructor: (@name) ->
@@ -29,6 +31,9 @@ BowShock.Screen = class Screen
 
     isActive: () ->
         @active
+
+    isLoaded: () ->
+        @loaded
 
     activate: () ->
         @active = true

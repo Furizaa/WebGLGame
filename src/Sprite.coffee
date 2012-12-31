@@ -10,6 +10,8 @@ BowShock.Sprite = class Sprite
         x: false
         y: false
 
+    projector: new THREE.Projector()
+
     ###
     options:
         tiles:      BowShock.Vector2
@@ -46,6 +48,7 @@ BowShock.Sprite = class Sprite
             @
 
     addToBatch: (batch) ->
+        batch.add @tbounds
         batch.add @tsprite
 
     setPosition: (position) ->

@@ -3,8 +3,6 @@ window.BowShock = class BowShock
     @v2: (x, y) ->
         return new BowShock.Vector2(x, y)
 
-    @debug: true
-
     @debug: (text, layer = 1) ->
         $('.debug'+layer).text text
 
@@ -12,4 +10,8 @@ window.BowShock = class BowShock
         if value < 0 then return -to
         if value > 0 then return to
         to
+
+
+
+
 

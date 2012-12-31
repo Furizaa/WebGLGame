@@ -34,7 +34,6 @@ BowShock.PlayerEntity = class PlayerEntity extends BowShock.Entity
         @player.movement =  1    if @input.isKeyPressed BowShock.Input.KEY_RIGHT
         @player.movement = -1    if @input.isKeyPressed BowShock.Input.KEY_LEFT
         if @input.isKeyPressed( BowShock.Input.KEY_UP ) and @player.grounded
-            console.log "jump"
             @player.velocity.y = -@player.jumpStrength
 
         @_applyPhysics()
@@ -49,7 +48,6 @@ BowShock.PlayerEntity = class PlayerEntity extends BowShock.Entity
         xCollision = false
         while @collide( "CT_BODY", "CT_WORLD" ) && @player.absVelocity.x > 0
             xCollision = true
-            BowShock.debug @player.velocity.x, 3
             @position.x -= BowShock.sign @player.velocity.x, 0.5
 
         @player.velocity.x = 0 if xCollision
@@ -69,8 +67,6 @@ BowShock.PlayerEntity = class PlayerEntity extends BowShock.Entity
         if yCollision
             @player.velocity.y = 0
 
-
-        BowShock.debug @player.grounded, 2
         @
 
     _applyPhysics: () ->
@@ -97,7 +93,6 @@ BowShock.PlayerEntity = class PlayerEntity extends BowShock.Entity
         not @isRunning() and @player.absVelocity.x > 0
 
     isFacingRight: () ->
-        BowShock.debug @player.facing
         @player.facing == "right"
 
     isGrounded: () ->

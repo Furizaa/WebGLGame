@@ -5,7 +5,11 @@ BowShock.GameScreen = class GameScreen extends BowShock.Screen
     playerSprite    : null
 
     anim:
+        stand       : null
         move        : null
+        slide       : null
+        jump        : null
+        fall        : null
 
     constructor: (name) ->
         super name
@@ -18,8 +22,13 @@ BowShock.GameScreen = class GameScreen extends BowShock.Screen
             scale: new BowShock.Vector2( 80, 80 )
         @playerSprite.load =>
             @playerSprite.setTile 33
-            @anim.move = new BowShock.SpriteAnimation @playerSprite, [35..40], 10
+            @anim.move  = new BowShock.SpriteAnimation @playerSprite, [35..40], 10, true
+            @anim.stand = new BowShock.SpriteAnimation @playerSprite, [33], 1, false
+            @anim.slide = new BowShock.SpriteAnimation @playerSprite, [41, 42], 3, false
+            @anim.jump  = new BowShock.SpriteAnimation @playerSprite, [119], 1, false
+            @anim.fall  = new BowShock.SpriteAnimation @playerSprite, [120], 1, false
             @playerSprite.addToBatch @getSpriteBatch()
+            @loaded = true
 
         @addEntity 'player', new BowShock.PlayerEntity( @collision )
         @addEntity 'floor',  new BowShock.WorldEntity( @collision, 0, 0 )
@@ -33,16 +42,16 @@ BowShock.GameScreen = class GameScreen extends BowShock.Screen
 
         if player.isGrounded()
             if player.isRunning()
-                @anim.move.update()
+                @anim.move.play()
             else if player.isSliding()
-                @playerSprite.setTile 41
+                @anim.slide.play()
             else
-                @playerSprite.setTile 33
+                @anim.stand.play()
         else
             if player.isJumping()
-                @playerSprite.setTile 119
+                @anim.jump.play()
             if player.isFalling()
-                @playerSprite.setTile 120
+                @anim.fall.play()
 
         @playerSprite.flipX() if not player.isFacingRight() and not @playerSprite.flip.x
         @playerSprite.flipX() if     player.isFacingRight() and     @playerSprite.flip.x

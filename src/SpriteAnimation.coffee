@@ -4,8 +4,9 @@ BowShock.SpriteAnimation = class SpriteAnimation
         current: -1
         last:    -1
 
-    constructor: (@sprite, @frames, @speed, @endCallback) ->
+    constructor: (@sprite, @frames, @speed, @doLoop, @endCallback) ->
         @reset()
+        @length = @frames.length - 1
 
     reset: () ->
         @_pointer = 0
@@ -14,24 +15,18 @@ BowShock.SpriteAnimation = class SpriteAnimation
     update: () ->
         @_pointer += BowShock.delta * @speed
         rpointer   = Math.round @_pointer
-        @reset()            if rpointer >= @frames.length
-        @endCallback.call() if rpointer == @frames.length and @endCallback
+        @endCallback.call()         if rpointer > @length and @endCallbackd
+        @reset()                    if rpointer > @length and @doLoop
+        @
 
+    play: () ->
+        @update()
         @frame.current = @getFrame()
         @sprite.setTile( @frame.current ) if @frame.current != @frame.last
         @frame.last = @frame.current
-        @
-
-    stop: () ->
-        @stopped = true
-        @
-
-    resume: () ->
-        @stopped = false
-        @
 
     getFrame: () ->
-        @frames[ Math.round( @_pointer ) ]
+        @frames[ Math.min( Math.round( @_pointer ), @length ) ]
 
     getSprite: () ->
         @sprite
