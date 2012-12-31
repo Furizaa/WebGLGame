@@ -1,15 +1,18 @@
 BowShock.Entity = class Entity
 
-    colliders: []
-
-    position: null
-
     constructor: (@type, @collisionManager) ->
-        @position = new BowShock.Vector2 0, 0
+        @worldPosition = new BowShock.Vector2 0, 0
+        @screenPosition = new BowShock.Vector2 0, 0
+        @realtimePosition = new BowShock.Vector2 0, 0
+        @colliders = []
 
     init: () ->
 
     update: () ->
+
+    updateScreenPosition: () ->
+        @screenPosition.x = @worldPosition.x + BowShock.spriteCam.x
+        @screenPosition.y = @worldPosition.y + BowShock.spriteCam.y
 
     getType: () ->
         @type
@@ -17,8 +20,15 @@ BowShock.Entity = class Entity
     isType: (type) ->
         @type == type
 
-    getPosition: () ->
-        @position
+    getWorldPosition: () ->
+        @worldPosition
+
+    getScreenPosition: () ->
+        @updateScreenPosition()
+        @screenPosition
+
+    getRealtimePosition: () ->
+        @realtimePosition
 
     addCollider: (collider) ->
         @colliders.push collider
@@ -35,8 +45,8 @@ BowShock.Entity = class Entity
         false
 
     collideAt: (originColliderTag, withTagName, x, y) ->
-        pre = @position
-        @position.set x, y
+        pre = @worldPosition
+        @worldPosition.set x, y
         collision = @collide originColliderTag, withTagName
-        @position.copy pre
+        @worldPosition.copy pre
         collision

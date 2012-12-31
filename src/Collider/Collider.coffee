@@ -14,7 +14,7 @@ BowShock.Collider = class Collider
         @tag
 
     getEntityPosition: () ->
-        if @entity then @entity.getPosition() else new BowShock.Vector2(0, 0)
+        if @entity then @entity.getScreenPosition() else new BowShock.Vector2(0, 0)
 
     getOffset: () ->
         if @relative then @getEntityPosition().clone().addSelf( @offset ) else @offset

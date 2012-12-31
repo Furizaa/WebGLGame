@@ -12,8 +12,8 @@ BowShock.RectangleCollider = class RectangleCollider extends BowShock.Collider
             @d.css
                 left: @getLeft()
                 top: @getTop()
-                width: @getRight() - @getLeft()
-                height: @getBottom() - @getTop()
+                width: @width
+                height: @height
         "CT_RECT"
 
     intersectPoint: (point) ->

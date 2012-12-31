@@ -20,8 +20,10 @@ BowShock.PlayerEntity = class PlayerEntity extends BowShock.Entity
         @
 
     init: () ->
-        @position.x = 300
-        @position.y = 100
+        @worldPosition.x = 300
+        @worldPosition.y = 100
+        @realtimePosition.x = 300
+        @realtimePosition.y = 100
         bodyCollider  = new BowShock.RectangleCollider "CT_BODY",  32,  57,  BowShock.v2(-16, -35), true
         feetCollider  = new BowShock.RectangleCollider "CT_FEET",  30,  10,  BowShock.v2(-15,  25),    true
         headCollider  = new BowShock.RectangleCollider "CT_HEAD",  30,  10,  BowShock.v2(-15, -45), true
@@ -41,14 +43,14 @@ BowShock.PlayerEntity = class PlayerEntity extends BowShock.Entity
         @player.facing   =  "left"  if @player.movement < 0
         @player.movement =  0
 
-        @position.x += @player.velocity.x
-        @position.y += @player.velocity.y
+        @worldPosition.x += @player.velocity.x
+        @worldPosition.y += @player.velocity.y
 
         # Handle collision with x Axis
         xCollision = false
         while @collide( "CT_BODY", "CT_WORLD" ) && @player.absVelocity.x > 0
             xCollision = true
-            @position.x -= BowShock.sign @player.velocity.x, 0.5
+            @worldPosition.x -= BowShock.sign @player.velocity.x, 0.5
 
         @player.velocity.x = 0 if xCollision
 
@@ -58,15 +60,16 @@ BowShock.PlayerEntity = class PlayerEntity extends BowShock.Entity
         while @collide( "CT_FEET", "CT_WORLD" ) && @player.velocity.y > 0
             @player.grounded = true
             yCollision = true
-            @position.y -= BowShock.sign @player.velocity.y, 0.5
+            @worldPosition.y -= BowShock.sign @player.velocity.y, 0.5
 
         while @collide( "CT_HEAD", "CT_WORLD" ) && @player.absVelocity.y > 0 && @player.velocity.y < 0
             yCollision = true
-            @position.y -= BowShock.sign @player.velocity.y, 0.5
+            @worldPosition.y -= BowShock.sign @player.velocity.y, 0.5
 
         if yCollision
             @player.velocity.y = 0
 
+        @worldPosition.apply Math.round
         @
 
     _applyPhysics: () ->

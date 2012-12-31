@@ -1,5 +1,6 @@
 manager  = null
 renderer = null
+camera   = null
 
 
 init = () ->
@@ -25,6 +26,7 @@ init = () ->
     BowShock.input = new BowShock.Input()
     BowShock.timer = new THREE.Clock true
     BowShock.camera = camera
+    BowShock.spriteCam = new BowShock.Camera width, height
 
     manager = new BowShock.ScreenManager renderer, camera
     screen = new BowShock.GameScreen 'game'

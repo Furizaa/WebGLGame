@@ -1,7 +1,5 @@
 BowShock.GameScreen = class GameScreen extends BowShock.Screen
 
-    collision       : null
-
     playerSprite    : null
 
     anim:
@@ -14,6 +12,7 @@ BowShock.GameScreen = class GameScreen extends BowShock.Screen
     constructor: (name) ->
         super name
         @collision = new BowShock.CollisionManager()
+        @level = new BowShock.Level @
         @
 
     load: () ->
@@ -31,10 +30,14 @@ BowShock.GameScreen = class GameScreen extends BowShock.Screen
             @loaded = true
 
         @addEntity 'player', new BowShock.PlayerEntity( @collision )
-        @addEntity 'floor',  new BowShock.WorldEntity( @collision, 0, 0 )
+
+        @level.generate()
 
         super()
         @
+
+    getCollisionManager: () ->
+        @collision
 
     update: () ->
         super()
@@ -56,8 +59,7 @@ BowShock.GameScreen = class GameScreen extends BowShock.Screen
         @playerSprite.flipX() if not player.isFacingRight() and not @playerSprite.flip.x
         @playerSprite.flipX() if     player.isFacingRight() and     @playerSprite.flip.x
 
-        @playerSprite.setPosition player.getPosition()
-
-        @collision.collide player
+        BowShock.spriteCam.centerOn player
+        @playerSprite.setPosition player.getScreenPosition()
 
         @

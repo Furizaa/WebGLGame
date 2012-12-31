@@ -53,7 +53,6 @@ BowShock.Sprite = class Sprite
 
     setPosition: (position) ->
         if @loaded
-            position.apply Math.round
             @tsprite.position.x = position.x
             @tsprite.position.y = position.y
         @

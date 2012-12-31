@@ -7,3 +7,6 @@ BowShock.Vector2 = class Vector2 extends THREE.Vector2
         @x = callback.call @, @.x
         @y = callback.call @, @.y
         @
+
+    clone: () ->
+        new BowShock.Vector2 @x, @y

@@ -8,12 +8,18 @@ BowShock.Screen = class Screen
 
     constructor: (@name) ->
         @spriteBatch = new THREE.Scene()
+        @count = 0
 
     addEntity: (reference, entity) ->
-        @entities[ reference ] = entity if not @entities[ reference ]
+        if not @entities[ reference ]
+            @entities[ reference ] = entity
+            @count++
 
     getEntity: (name) ->
         @entities[ name ]
+
+    getEntityCount: () ->
+        @count
 
     load: () ->
         for ref, entity of @entities
