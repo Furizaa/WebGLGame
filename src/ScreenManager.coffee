@@ -1,16 +1,19 @@
 BowShock.ScreenManager = class ScreenManager
 
-    list: []
-
     constructor: (@renderer, @camera) ->
+        @list = []
+        @
 
     add: (screen) ->
         @list.push screen
 
-    render: () ->
+    get: (name) ->
         for screen in @list
-            do (screen) =>
-                @renderer.render( screen.getSpriteBatch(), @camera ) if screen.isLoaded()
+            if screen.getName() == name then return screen
+        return null
+
+    render: () ->
+        screen.render(@renderer, @camera) for screen in @list when screen.isLoaded()
 
     update: () ->
         screen.update() for screen in @list when screen.isActive() and screen.isLoaded()

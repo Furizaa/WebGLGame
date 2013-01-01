@@ -1,16 +1,6 @@
 BowShock.Sprite = class Sprite
 
-    tsprite: null
-
-    tmaterial: null
-
-    loaded: false
-
-    flip:
-        x: false
-        y: false
-
-    projector: new THREE.Projector()
+    materials: {}
 
     ###
     options:
@@ -20,22 +10,30 @@ BowShock.Sprite = class Sprite
         minFilter   THREE.Filter
     ###
     constructor: (@file, @options) ->
+        @position = new BowShock.Vector2(0, 0)
+        @tsprite = null
+        @loaded = false
+        @flip =
+            x: false
+            y: false
 
     load: (callbackDone) ->
         map = THREE.ImageUtils.loadTexture @file, undefined, =>
             map.magFilter = @options.magFilter || THREE.NearestFilter
             map.minFilter = @options.minFilter || THREE.LinearMipMapLinearFilter
-            @tmaterial = new THREE.SpriteMaterial
-                map:                    map
-                aligment:               THREE.SpriteAlignment.topLeft
-                useScreenCoordinates:   true
+
+            if not @_material()
+                @materials[ @file ] = new THREE.SpriteMaterial
+                    map:                    map
+                    useScreenCoordinates:   true
+                @_material().alignment = THREE.SpriteAlignment.center
 
 
             if @options.tiles
-                @tmaterial.uvScale.set( 1 / @options.tiles.x, 1 / @options.tiles.y )
+                @_material().uvScale.set( 1 / @options.tiles.x, 1 / @options.tiles.y )
                 @setTile 0
 
-            @tsprite = new THREE.Sprite @tmaterial
+            @tsprite = new THREE.Sprite @_material()
 
             if @options.scale
                 @tsprite.scale.set @options.scale.x, @options.scale.y
@@ -47,18 +45,20 @@ BowShock.Sprite = class Sprite
             @loaded = true
             @
 
+    _material: () ->
+        @materials[ @file ]
+
     addToBatch: (batch) ->
-        batch.add @tbounds
-        batch.add @tsprite
+        batch.add @
 
     setPosition: (position) ->
         if @loaded
-            @tsprite.position.x = position.x
-            @tsprite.position.y = position.y
+            @position.x = position.x
+            @position.y = position.y
         @
 
     getPosition: () ->
-        @tsprite.position
+        @position
 
     flipX: () ->
         @flip.x = not @flip.x
@@ -76,6 +76,6 @@ BowShock.Sprite = class Sprite
         tileY = Math.round( (tile / @options.tiles.x) - .5 ) + 1
         uvX   = 1 / @options.tiles.x * tileX
         uvY   = 1 - (1 / @options.tiles.y) * tileY
-        @tmaterial.uvOffset.set uvX, uvY
+        @_material().uvOffset.set uvX, uvY
         @
 

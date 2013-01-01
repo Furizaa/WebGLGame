@@ -23,16 +23,16 @@ BowShock.RectangleCollider = class RectangleCollider extends BowShock.Collider
         @intersectPoint( start ) || @intersectPoint( end )
 
     getRight: () ->
-        @getOffset().x + @width
+        @getOffset().x + ( @width / 2 )
 
     getLeft: () ->
-        @getOffset().x
+        @getOffset().x - ( @width / 2 )
 
     getTop: () ->
-        @getOffset().y
+        @getOffset().y - ( @height / 2 )
 
     getBottom: () ->
-        @getOffset().y + @height
+        @getOffset().y + ( @height / 2 )
 
     getTopLeft: () ->
         new BowShock.Vector2 @getLeft(), @getTop()

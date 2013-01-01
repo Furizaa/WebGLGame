@@ -4,11 +4,21 @@ BowShock.WorldEntity = class WorldEntity extends BowShock.Entity
         super "ET_WORLD", @collisionManager
         @
 
-    init: () ->
-        @worldPosition.x = @x
-        @worldPosition.y = @y
-        console.log @
-        collider = new BowShock.RectangleCollider "CT_WORLD", @width, @height, @worldPosition, true
+    init: (spriteBatch) ->
+        @worldPosition.x = @screenPosition.x = @x
+        @worldPosition.y = @screenPosition.y = @y
+
+        collider = new BowShock.RectangleCollider "CT_WORLD", @width, @height, new BowShock.Vector2(0, 0), true
         @collisionManager.registerCollider collider, @
+
+        @sprite = new BowShock.Sprite "textures/testbox2.png",
+            scale: new BowShock.Vector2( @width, @height )
+        @sprite.load =>
+            @sprite.addToBatch spriteBatch
+            @loaded = true
+
         @
+
+    update: () ->
+        @sprite.setPosition @getWorldPosition()
 
