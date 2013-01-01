@@ -1,10 +1,6 @@
 # - Artifacts
 server.js
-public/js/*.js
-public/js/Entity
-public/js/Screen
-public/js/Collider
-!public/js/*.min.js
+public/js
 public/css/core.css
 
 
