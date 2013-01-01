@@ -20,7 +20,7 @@ html(lang='en')
             link(rel='stylesheet', href='css/core.css')
         block headscripts
 
-    body#game
+    body
 
         .debugLayer
 
@@ -30,29 +30,30 @@ html(lang='en')
         block footscripts
             script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
             script(src='js/three.stable.min.js')
+            script(src='js/Core.js')
             script(src="js/BowShock.js")
-            script(src='js/underscore.min.js')
-            script(src='js/Vector2.js')
-            script(src='js/Camera.js')
-            script(src='js/Input.js')
-            script(src='js/SpriteBatch.js')
-            script(src='js/Sprite.js')
-            script(src='js/Collider/Collider.js')
-            script(src='js/Collider/CollisionManager.js')
-            script(src='js/Collider/RectangleCollider.js')
-            script(src='js/Collider/CircleCollider.js')
+            script(src="js/Config.js")
+            script(src="js/BowShock/Vector2.js")
+            script(src="js/BowShock/Component/ComponentAssembly.js")
+            script(src="js/BowShock/Component/Component.js")
+            script(src="js/BowShock/Component/RenderComponent.js")
+            script(src="js/BowShock/Component/LayerComponent.js")
+            script(src="js/BowShock/Component/InputComponent.js")
+            script(src="js/BowShock/Component/SceneComponent.js")
+            script(src="js/BowShock/Component/EntityComponent.js")
+            script(src="js/BowShock/Component/Entity/TransformComponent.js")
+            script(src="js/BowShock/Component/Entity/SpriteComponent.js")
 
-            script(src='js/Screen.js')
-            script(src='js/ScreenManager.js')
-            script(src='js/SpriteAnimation.js')
+            script(src="js/BowShock/Layer.js")
+            script(src="js/BowShock/Scene.js")
+            script(src="js/BowShock/Camera.js")
+            script(src="js/BowShock/Entity.js")
 
-            script(src='js/Level.js')
+            script(src="js/Game.js")
 
-            script(src='js/Entity/Entity.js')
-            script(src='js/Entity/PlayerEntity.js')
-            script(src='js/Entity/WorldEntity.js')
+            script(src="js/Entities/WorldEntity.js")
 
-            script(src='js/Screen/EditorScreen.js')
-            script(src='js/Screen/GameScreen.js')
+            script(src="js/Scenes/LevelScene.js")
+
 
             script(src='js/main.js')

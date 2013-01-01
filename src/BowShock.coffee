@@ -1,5 +1,10 @@
 window.BowShock = class BowShock
 
+    #Engine Namespaces
+    @Component: {
+        Entity: {}
+    }
+
     @width:  window.innerWidth
     @height: window.innerHeight
 
