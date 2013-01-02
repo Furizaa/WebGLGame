@@ -25,6 +25,7 @@ BowShock.Layer = class Layer extends BowShock.Component.ComponentAssembly
         @entities.push entity
         sprite = entity.getComponent( "Sprite" )
         @scene.add sprite.getSprite() if sprite
+        console.log sprite.getSprite()
         entity
 
     _applyCamera: ( entity, camera ) ->

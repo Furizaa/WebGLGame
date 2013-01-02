@@ -4,4 +4,7 @@ BowShock.Entity = class Entity extends BowShock.Component.ComponentAssembly
         super()
         @transform = @getComponentFactory().buildComponent "Transform", @
 
+    getType: () ->
+        "ET_GENERIC"
+
 

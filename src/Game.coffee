@@ -3,6 +3,7 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
     constructor: () ->
         super()
         @config   = BowShock.Config.instance()
+        @clock    = new THREE.Clock()
 
     init: (width, height) ->
         @renderer = @getComponentFactory().buildComponent "Render", @
@@ -27,7 +28,7 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
     update: () ->
 
         # Update Active Scene
-        super()
+        super( @clock.getDelta() )
 
         # Change Scene
         @scenes.resolveSceneChanges()

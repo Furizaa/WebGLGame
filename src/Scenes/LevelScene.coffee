@@ -10,4 +10,7 @@ Core.Scene.LevelScene = class LevelScene extends BowShock.Scene
             @getComponentFactory().loadJson entity, new Core.Entity.WorldEntity(), ( entity ) =>
                 @active.addEntity entity
 
+        player = new Core.Entity.PlayerEntity().load ( player ) =>
+            @active.addEntity player
+
         super( doneCallback )

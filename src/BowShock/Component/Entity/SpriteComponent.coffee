@@ -54,7 +54,8 @@ BowShock.Component.Entity.SpriteComponent = class SpriteComponent extends BowSho
 
     setScale: ( vector ) ->
         if @loaded
-            @tsprite.scale.set vector.x, vector.y, 0
+            # Keep number signature
+            @tsprite.scale.set BowShock.sign( @tsprite.scale.x, vector.x ), BowShock.sign( @tsprite.scale.y, vector.y ), 0
 
     getScale: () ->
         if not @loaded then return new BowShock.Vector2 0, 0
