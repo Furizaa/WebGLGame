@@ -1,25 +1,5 @@
 Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Component.ComponentAssembly
 
-    player:
-        movement            : 0
-        maxMoveSpeed        : 3
-        moveAcceleration    : 35
-        friction            : 0.9
-        turnFriction        : 0.45
-        gravity             : 12.5
-        maxFallSpeed        : 6
-        facing              : "right"
-        grounded            : false
-
-        velocity            : new BowShock.Vector2 0, 0
-        absVelocity         : new BowShock.Vector2 0, 0
-
-    constructor: () ->
-        super()
-        @input = BowShock.input
-        @anim  = {}
-        @
-
     getType: () -> "ET_PLAYER"
 
     load: ( doneCallback ) ->
@@ -78,7 +58,6 @@ Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Component.Compone
 
         @sprite.flipX() if not @isFacingRight() and not @sprite.flip.x
         @sprite.flipX() if     @isFacingRight() and     @sprite.flip.x
-
         @
 
     isFacingRight: () ->
