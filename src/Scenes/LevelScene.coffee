@@ -1,12 +1,8 @@
 Core.Scene.LevelScene = class LevelScene extends BowShock.Scene
 
-    constructor: () ->
-        super()
-        @
-
     load: ( doneCallback ) ->
         console.log "Level Load"
-        @active = @layers.addLayer "LR_ACTIVE", new BowShock.Camera()
+        @active = @layers.addLayer "LR_ACTIVE"
         @active.setActive true
 
         level = BowShock.Config.instance().get()[ "level0" ]

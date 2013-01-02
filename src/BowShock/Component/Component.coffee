@@ -8,11 +8,11 @@ BowShock.Component.Component = class Component
 
     resolveDependencies: ( dependencies ) ->
         for dependency in dependencies
-            console.log "Missing dependency:", dependency if not @parentAssembly._( dependency ) and BowShock.debug
-            @parentAssembly.addComponent( dependency ).init()
+            console.log "Missing dependency:", dependency if not @parentAssembly.getComponent( dependency ) and BowShock.debug
+            @parentAssembly.getComponentFactory().buildComponent dependency, @parentAssembly
 
     getDependencyComponent: ( dependency ) ->
-        @parentAssembly._( dependency )
+        @parentAssembly.getComponent( dependency )
 
     # Overwrite
     init: () ->

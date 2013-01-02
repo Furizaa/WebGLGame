@@ -1,9 +1,9 @@
-BowShock.Entity = class Entity
+BowShock.Entity = class Entity extends BowShock.Component.ComponentAssembly
 
     constructor: () ->
+        super()
         @loaded    = false
-        @assembly  = new BowShock.Component.ComponentAssembly()
-        @transform = @assembly.addComponent( "Transform" ).init( @ )
+        @transform = @getComponentFactory().buildComponent "Transform", @
 
     load: () ->
         @loaded = true
@@ -12,7 +12,7 @@ BowShock.Entity = class Entity
         @monitor = []
         for component in json
             @monitor[ component.component ] = false
-            cobject = @assembly.addComponent( component.component ).init()
+            cobject = @getComponentFactory().buildComponent component.component, @
             cobject.loadJson component.data, (name) =>
                 @monitor[ name ] = true
                 allLoaded = true
@@ -25,11 +25,5 @@ BowShock.Entity = class Entity
 
     saveJson: () ->
         #todo
-
-    getComponent: ( component ) ->
-        @assembly._( component )
-
-    update: ( delta ) ->
-        @assembly.updateComponents delta
 
     isLoaded: () -> @loaded

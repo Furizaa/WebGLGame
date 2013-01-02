@@ -1,4 +1,4 @@
-BowShock.Collider = class Collider
+BowShock.Collider.Collider = class Collider
 
     entity: null
 

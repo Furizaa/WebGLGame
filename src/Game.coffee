@@ -1,13 +1,13 @@
-BowShock.Game = class Game
+BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
 
     constructor: () ->
+        super()
         @config   = BowShock.Config.instance()
-        @assembly = new BowShock.Component.ComponentAssembly()
 
     init: (width, height) ->
-        @renderer = @assembly.addComponent( "Render" ).init( window.innerWidth, window.innerHeight )
-        @scenes   = @assembly.addComponent( "Scene"  ).init()
-        @input    = @assembly.addComponent( "Input"  ).init()
+        @renderer = @getComponentFactory().buildComponent "Render", @
+        @scenes   = @getComponentFactory().buildComponent "Scene", @
+        @input    = @getComponentFactory().buildComponent "Input", @
 
         @renderer.initDom()
 
@@ -24,17 +24,17 @@ BowShock.Game = class Game
         @scenes.resolveSceneChanges()
         @
 
-    run: () ->
-        @update()
-        @render()
-
     update: () ->
-        @scenes.getActiveScene().update()
+
+        # Update Active Scene
+        super()
+
+        # Change Scene
         @scenes.resolveSceneChanges()
 
     render: () ->
-        @scenes.getActiveScene().render()
+        @scenes.getActiveScene().render @renderer
 
     onResize: ( event ) ->
         if @renderer
-            @renderer.updateRatio window.innerWidth, window.innerHeight
+            @renderer.updateRatio BowShock.contextWidth, BowShock.contextHeight

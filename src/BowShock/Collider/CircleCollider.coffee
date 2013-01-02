@@ -1,4 +1,4 @@
-BowShock.CircleCollider = class CircleCollider extends BowShock.Collider
+BowShock.Collider.CircleCollider = class CircleCollider extends BowShock.Collider.Collider
 
     constructor: (@tag, @radius, @offset, @relative) ->
         super( @tag, @relative )

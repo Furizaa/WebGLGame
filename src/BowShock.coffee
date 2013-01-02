@@ -4,9 +4,10 @@ window.BowShock = class BowShock
     @Component: {
         Entity: {}
     }
+    @Collider: {}
 
-    @width:  window.innerWidth
-    @height: window.innerHeight
+    @contextWidth:  window.innerWidth
+    @contextHeight: window.innerHeight
 
     @v2: (x, y) ->
         return new BowShock.Vector2(x, y)

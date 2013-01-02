@@ -1,4 +1,4 @@
-BowShock.RectangleCollider = class RectangleCollider extends BowShock.Collider
+BowShock.Collider.RectangleCollider = class RectangleCollider extends BowShock.Collider.Collider
 
     constructor: (@tag, @width, @height, @offset, @relative) ->
         super( @tag, @relative )

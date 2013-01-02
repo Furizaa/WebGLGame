@@ -1,10 +1,12 @@
-BowShock.Layer = class Layer
+BowShock.Layer = class Layer extends BowShock.Component.ComponentAssembly
 
-    constructor: ( @camera ) ->
+    constructor: () ->
+        super()
         @entities  = []
         @scene     = new THREE.Scene()
         @visible   = true
         @active    = false
+        @camera    = @getComponentFactory().buildComponent "Camera", @
         @
 
     render: ( renderer ) ->
@@ -14,6 +16,7 @@ BowShock.Layer = class Layer
         @
 
     update: ( delta ) ->
+        super delta
         if @active
             entity.update( delta ) for entity in @entities
         @

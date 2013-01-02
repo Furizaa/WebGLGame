@@ -1,17 +1,17 @@
-BowShock.Scene = class Scene
+BowShock.Scene = class Scene extends BowShock.Component.ComponentAssembly
 
     @loaded
 
     constructor: () ->
-        @assembly = new BowShock.Component.ComponentAssembly()
-        @renderer = @assembly.addComponent( "Render" ).init()
-        @layers   = @assembly.addComponent( "Layer" ).init()
-        @input    = @assembly.addComponent( "Input" ).init()
+        super()
+        @layers   = @getComponentFactory().buildComponent "Layer", @
+        @input    = @getComponentFactory().buildComponent "Input", @
 
-    render: () ->
-        @layers.render @renderer if @loaded
+    render: ( renderComponent ) ->
+        @layers.render renderComponent if @loaded
 
     update: ( delta ) ->
+        super delta
         @layers.update delta if @loaded
 
     # Overwrite

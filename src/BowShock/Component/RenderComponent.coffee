@@ -12,15 +12,16 @@ BowShock.Component.RenderComponent = class RenderComponent extends BowShock.Comp
         @width  = 800
         @height = 600
 
-    init: ( width, height ) ->
+    init: () ->
         super()
         @getRenderer().autoClear = false
-        @updateRatio width, height if width and height
+        @updateRatio BowShock.contextWidth, BowShock.contextHeight
         @
 
     updateRatio: ( width, height ) ->
         @width = width
         @height = height
+        console.log( "WIDTH: " + @width + " HEIGHT: " + @height ) if BowShock.debug
         @getRenderer().setSize @width, @height
 
     getRenderer: () ->

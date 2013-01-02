@@ -13,6 +13,8 @@ update = () ->
     game.update()
 
 onWindowResize = (event) ->
+    BowShock.contextWidth = window.innerWidth
+    BowShock.contextHeight = window.innerHeight
     game.onResize()
 
 

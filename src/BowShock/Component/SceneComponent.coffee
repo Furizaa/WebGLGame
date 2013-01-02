@@ -18,3 +18,6 @@ BowShock.Component.SceneComponent = class SceneComponent extends BowShock.Compon
 
     getActiveScene: () ->
         @activeScene
+
+    update: ( delta ) ->
+        @getActiveScene().update delta
