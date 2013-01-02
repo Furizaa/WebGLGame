@@ -7,7 +7,7 @@ Core.Scene.LevelScene = class LevelScene extends BowShock.Scene
 
         level = BowShock.Config.instance().get()[ "level0" ]
         for entity in level.entities
-            new Core.Entity.WorldEntity().loadJson entity, ( entity ) =>
+            @getComponentFactory().loadJson entity, new Core.Entity.WorldEntity(), ( entity ) =>
                 @active.addEntity entity
 
         super( doneCallback )

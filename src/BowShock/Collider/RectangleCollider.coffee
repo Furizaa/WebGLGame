@@ -2,18 +2,9 @@ BowShock.Collider.RectangleCollider = class RectangleCollider extends BowShock.C
 
     constructor: (@tag, @width, @height, @offset, @relative) ->
         super( @tag, @relative )
-        if BowShock.debug
-            @d = $('<div>').addClass('collider')
-            $('.debugLayer').append @d
         @
 
     getColliderType: () ->
-        if BowShock.debug
-            @d.css
-                left: @getLeft()
-                top: @getTop()
-                width: @width
-                height: @height
         "CT_RECT"
 
     intersectPoint: (point) ->
@@ -45,6 +36,12 @@ BowShock.Collider.RectangleCollider = class RectangleCollider extends BowShock.C
 
     getBottomRight: () ->
         new BowShock.Vector2 @getRight(), @getBottom()
+
+    getWidth: () ->
+        @width
+
+    getHeight: () ->
+        @height
 
 
 

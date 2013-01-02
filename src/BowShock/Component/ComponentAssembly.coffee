@@ -23,3 +23,4 @@ BowShock.Component.ComponentAssembly = class ComponentAssembly
 
     update: ( delta ) ->
         @updateComponents delta
+

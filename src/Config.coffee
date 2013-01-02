@@ -20,22 +20,34 @@ BowShock._Config = class _Config
 
                     [
                         {
-                            component: "Sprite",
-                            data:      { fileName: "textures/testbox2.png" }
+                            componentName: "Sprite",
+                            componentData:      { fileName: "textures/testbox2.png" }
                         },
                         {
-                            component: "Transform",
-                            data:      { x: -50, y: -50, width: 100, height: 100, angle: 0 }
+                            componentName: "Transform",
+                            componentData:      { x: -50, y: -50, width: 100, height: 100, angle: 0 }
+                        },
+                        {
+                            componentName: "Collision",
+                            componentData: [
+                                { tag: "CT_WORLD", width: 100, height: 100, offsetx: 0, offsety: 0 }
+                            ]
                         }
                     ],
                     [
                         {
-                            component: "Sprite",
-                            data:      { fileName: "textures/testbox2.png" }
+                            componentName: "Sprite",
+                            componentData:      { fileName: "textures/testbox2.png" }
                         },
                         {
-                            component: "Transform",
-                            data:      { x: 50, y: 50, width: 100, height: 100, angle: 0 }
+                            componentName: "Transform",
+                            componentData:      { x: 50, y: 50, width: 100, height: 100, angle: 0 }
+                        },
+                        {
+                            componentName: "Collision",
+                            componentData: [
+                                { tag: "CT_WORLD", width: 100, height: 100, offsetx: 0, offsety: 0 }
+                            ]
                         }
                     ]
 

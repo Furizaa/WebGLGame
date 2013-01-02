@@ -8,27 +8,33 @@ BowShock.Component.Entity.CollisionComponent = class ColissionComponent extends 
 
     constructor: () ->
         @name = "Collision"
+        @localColliders = []
         @dependencies = [ "Transform" ]
 
-    registerCollider: (collider, entity) ->
-        collider.setEntity entity
-        entity.addCollider collider
+    registerCollider: ( collider ) ->
+        collider.setEntity   @parentAssembly
+        @localColliders.push collider
         @getColliders().push collider
 
-    collide: (entity) ->
+    collide: ( originColliderTag, withTagName ) ->
         collisions = []
-        for inputCollider in entity.getColliders()
-            for stockCollider in @getColliders()
-                @check inputCollider, stockCollider, (ca, cb) =>
+        for localCollider in @localColliders
+            for globalCollider in @getColliders()
+                @check localCollider, globalCollider, (ca, cb) =>
                     collisions.push
                         origin      : ca,
                         destination : cb
-        collisions
 
-    check: (a, b, onTrue) ->
+        if collisions.length is 0 then return false
+        for collision in collisions
+            if collision.origin.getTag() is originColliderTag and collision.destination.getTag() is withTagName
+                return true
+        false
+
+    check: ( a, b, onTrue ) ->
         if ( a.getEntity() != b.getEntity() ) && a.getEntity().getType() in @getActiveTypes() && a.collideWith( b )
             onTrue.call @, a, b
 
-    getColliders: () -> BowShock.Component.CollisionComponent.collider
+    getColliders: () -> BowShock.Component.Entity.CollisionComponent.colliders
 
-    getActiveTypes: () -> BowShock.Component.CollisionComponent.activeTypes
+    getActiveTypes: () -> BowShock.Component.Entity.CollisionComponent.activeTypes

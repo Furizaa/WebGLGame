@@ -1,11 +1,18 @@
 BowShock.Collider.Collider = class Collider
 
-    entity: null
-
     constructor: (@tag, @relative) ->
+        @entity = null
 
     setEntity: (entity) ->
         @entity = entity
+        if BowShock.debug
+            @d = $('<div>').addClass('collider ' + @tag)
+            $('.debugLayer').append @d
+            @d.css
+                left: @getLeft() + (BowShock.contextWidth / 2)
+                top: @getTop() + (BowShock.contextHeight / 2)
+                width: @getWidth()
+                height: @getHeight()
 
     getEntity: () ->
         @entity
@@ -13,8 +20,11 @@ BowShock.Collider.Collider = class Collider
     getTag: () ->
         @tag
 
+    getEntityTransform: () ->
+        @entityTransform ?= @entity.getComponent( "Transform" )
+
     getEntityPosition: () ->
-        if @entity then @entity.getWorldPosition() else new BowShock.Vector2(0, 0)
+        if @entity then @getEntityTransform().getPosition() else new BowShock.Vector2(0, 0)
 
     getOffset: () ->
         if @relative then @getEntityPosition().clone().addSelf( @offset ) else @offset

@@ -4,7 +4,6 @@ BowShock.Component.Entity.SpriteComponent = class SpriteComponent extends BowSho
     @materials: []
 
     constructor: () ->
-        @name         = "Sprite"
         @dependencies = [ "Transform" ]
         @loaded       = false
         @flip =
@@ -41,16 +40,9 @@ BowShock.Component.Entity.SpriteComponent = class SpriteComponent extends BowSho
             @tsprite.opacity = 1
             @tsprite.position.normalize()
 
-            callbackDone.call @, @name
+            callbackDone.call @
             @loaded = true
             @
-
-    loadJson: ( json, callbackDone ) ->
-        @loadFile json.fileName, json.tilesX, json.tilesY, callbackDone
-        @
-
-    saveJson: () ->
-        #TODO
 
     setPosition: ( vector ) ->
         if @loaded

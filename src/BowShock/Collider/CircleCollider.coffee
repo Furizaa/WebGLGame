@@ -2,18 +2,9 @@ BowShock.Collider.CircleCollider = class CircleCollider extends BowShock.Collide
 
     constructor: (@tag, @radius, @offset, @relative) ->
         super( @tag, @relative )
-        if BowShock.debug
-            @d = $('<div>').addClass('collider circle')
-            $('.debugLayer').append @d
         @
 
     getColliderType: () ->
-        if BowShock.debug
-            @d.css
-                left: @getCenterX() - @radius
-                top:  @getCenterY() - @radius
-                width:  @radius * 2
-                height: @radius * 2
         "CT_CIRCLE"
 
     intersectPoint: (point) ->
@@ -39,6 +30,11 @@ BowShock.Collider.CircleCollider = class CircleCollider extends BowShock.Collide
 
         return distsqrt <= radius * radius
 
+    getTop: () ->
+        @getCenterY() - @radius
+
+    getLeft: () ->
+        @getCenterX() - @radius
 
     getCenterX: () ->
         @getOffset().x
@@ -48,6 +44,12 @@ BowShock.Collider.CircleCollider = class CircleCollider extends BowShock.Collide
 
     getCenter: () ->
         @getOffset()
+
+    getWidth: () ->
+        @radius * 2
+
+    getHeight: () ->
+        @getWidth()
 
 
 

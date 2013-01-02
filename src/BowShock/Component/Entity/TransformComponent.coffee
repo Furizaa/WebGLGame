@@ -1,17 +1,10 @@
 BowShock.Component.Entity.TransformComponent = class TransformComponent extends BowShock.Component.EntityComponent
 
     constructor: () ->
-        @name         = "Transform"
         @dependencies = []
         @position = new BowShock.Vector2 0, 0
         @scale    = new BowShock.Vector2 0, 0
         @rotation = 0
-
-    loadJson: ( json, doneCallback ) ->
-        @setPositionScalar  json.x,     json.y
-        @setScaleScalar     json.width, json.height
-        @setRotaion         json.angle
-        doneCallback.call @, @name if doneCallback
 
     saveJson: () ->
         #todo
