@@ -1,7 +1,6 @@
 Core.Scene.LevelScene = class LevelScene extends BowShock.Scene
 
     load: ( doneCallback ) ->
-        console.log "Level Load"
         @active = @layers.addLayer "LR_ACTIVE"
         @active.setActive true
 

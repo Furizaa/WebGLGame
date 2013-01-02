@@ -4,14 +4,13 @@ Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Component.Compone
         movement            : 0
         maxMoveSpeed        : 3
         moveAcceleration    : 35
-        friction            : 0.87
+        friction            : 0.9
         turnFriction        : 0.45
         gravity             : 12.5
         maxFallSpeed        : 6
         facing              : "right"
         grounded            : false
-        jumpStrength        : 8
-        jumpCourve          : -1
+
         velocity            : new BowShock.Vector2 0, 0
         absVelocity         : new BowShock.Vector2 0, 0
 
@@ -28,13 +27,14 @@ Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Component.Compone
         @input      = @getComponentFactory().buildComponent( "Input", @ )
         @collision  = @getComponentFactory().buildComponent( "Collision", @ )
         @sprite     = @getComponentFactory().buildComponent( "Sprite", @ )
+        @animation  = @getComponentFactory().buildComponent( "SpriteAnimation", @ )
+        @physics    = @getComponentFactory().buildComponent( "PhysicsBody", @ )
         @sprite.loadFile "textures/move.png", 16, 16, =>
-            @sprite.setTile 33
-            @anim.move  = new BowShock.SpriteAnimation @sprite, [35..40], 5, true
-            @anim.stand = new BowShock.SpriteAnimation @sprite, [33], 1, false
-            @anim.slide = new BowShock.SpriteAnimation @sprite, [41, 42], 1.5, false
-            @anim.jump  = new BowShock.SpriteAnimation @sprite, [119], 1, false
-            @anim.fall  = new BowShock.SpriteAnimation @sprite, [120], 1, false
+            @animation.addAnimation "move",  [35..40], 5, true
+            @animation.addAnimation "stand", [33],     1
+            @animation.addAnimation "slide", [41, 42], 1.5
+            @animation.addAnimation "jump",  [119],    1
+            @animation.addAnimation "fall",  [120],    1
             doneCallback.call @, @
 
         @transform.setPositionScalar 0, -300
@@ -46,107 +46,51 @@ Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Component.Compone
         @collision.registerCollider bodyCollider, @
         @collision.registerCollider feetCollider, @
         @collision.registerCollider headCollider, @
+
+        @physics.doHandleHeadCollision "CT_HEAD"
+        @physics.doHandleFeetCollision "CT_FEET"
+        @physics.doHandleBodyCollision "CT_BODY"
         @
 
     update: ( delta ) ->
         super delta
-        @player.movement =  1    if @input.isKeyHeld BowShock.KEY_RIGHT
-        @player.movement = -1    if @input.isKeyHeld BowShock.KEY_LEFT
+        @physics.setMovement 1  if @input.isKeyHeld         BowShock.KEY_RIGHT
+        @physics.setMovement -1 if @input.isKeyHeld         BowShock.KEY_LEFT
+        @physics.jump()         if @input.isKeyPressed      BowShock.KEY_UP
+        @physics.cancelJump()   if @input.isKeyReleased     BowShock.KEY_UP
 
-        if @input.isKeyPressed( BowShock.KEY_UP ) and @player.grounded
-            @player.velocity.y = -@player.jumpStrength
-        if @input.isKeyReleased( BowShock.KEY_UP ) and not @player.grounded and not @isFalling()
-            @player.velocity.y = @player.jumpCourve
-
-        @_applyPhysics delta
-        @player.facing   =  "right" if @player.movement > 0
-        @player.facing   =  "left"  if @player.movement < 0
-        @player.movement =  0
-
-        @transform.getPosition().x += @player.velocity.x
-        @transform.getPosition().y += @player.velocity.y
-
-        # Handle collision with x Axis
-        xCollision = false
-        while @collision.collide( "CT_BODY", "CT_WORLD" ) && @player.absVelocity.x > 0
-            xCollision = true
-            @transform.getPosition().x -= BowShock.sign @player.velocity.x, 0.5
-
-        @player.velocity.x = 0 if xCollision
-
-        # Handle Collision with Y Axis
-        yCollision = false
-        @player.grounded = false
-        while @collision.collide( "CT_FEET", "CT_WORLD" ) && @player.velocity.y > 0
-            @player.grounded = true
-            yCollision = true
-            @transform.getPosition().y -= BowShock.sign @player.velocity.y, 0.5
-
-        while @collision.collide( "CT_HEAD", "CT_WORLD" ) && @player.absVelocity.y > 0 && @player.velocity.y < 0
-            yCollision = true
-            @transform.getPosition().y -= BowShock.sign @player.velocity.y, 0.5
-
-        if yCollision
-            @player.velocity.y = 0
+        @physics.applyPhysics( delta )
 
         @transform.normalizePosition()
-        @_updateSprite( delta )
-        @
 
-    _applyPhysics: ( delta ) ->
-        p = @player
-        p.velocity.x += p.movement * p.moveAcceleration * delta
-        p.velocity.x =  THREE.Math.clamp p.velocity.x, -p.maxMoveSpeed, p.maxMoveSpeed
-        p.velocity.x *= p.friction if p.movement == 0
-
-        #Strip velocity for animation
-        p.absVelocity.copy( p.velocity )
-        p.absVelocity.apply( Math.round ).apply( Math.abs )
-
-        p.velocity.x *= p.turnFriction if p.movement > 0 and Math.round( p.velocity.x ) < 0
-        p.velocity.x *= p.turnFriction if p.movement < 0 and Math.round( p.velocity.x ) > 0
-
-        p.velocity.y += p.gravity * delta
-        p.velocity.y =  Math.min p.velocity.y, p.maxFallSpeed
-        @
-
-    _updateSprite: ( delta ) ->
-        if @isGrounded()
+        if @physics.isGrounded()
             if @isRunning()
-                @anim.move.play( delta )
+                @animation.play( "move", delta )
             else if @isSliding()
-                @anim.slide.play( delta )
+                @animation.play( "slide", delta )
             else
-                @anim.stand.play( delta )
+                @animation.play( "stand", delta )
         else
-            if @isJumping()
-                @anim.jump.play( delta )
-            if @isFalling()
-                @anim.fall.play( delta )
-
-        BowShock.debug @player.facing
+            if @physics.isJumping()
+                @animation.play( "jump", delta )
+            if @physics.isFalling()
+                @animation.play( "fall", delta )
 
         @sprite.flipX() if not @isFacingRight() and not @sprite.flip.x
         @sprite.flipX() if     @isFacingRight() and     @sprite.flip.x
 
-        #BowShock.spriteCam.centerOn @
-        #@sprite.setPosition @transform.getPosition()
-
-    isRunning: () ->
-        @input.isKeyHeld( BowShock.KEY_RIGHT ) or @input.isKeyHeld( BowShock.KEY_LEFT )
-
-    isSliding: () ->
-        not @isRunning() and @player.absVelocity.x > 0
+        @
 
     isFacingRight: () ->
-        @player.facing == "right"
+        @physics.getDirection() is 1
 
-    isGrounded: () ->
-        @player.grounded
+    isRunning: () ->
+        if @input.isKeyHeld( BowShock.KEY_RIGHT ) || @input.isKeyHeld( BowShock.KEY_LEFT )
+            return true
+        false
 
-    isFalling: () ->
-        @player.velocity.y > 0 and not @isGrounded()
+    isSliding: () ->
+        not @isRunning() and @physics.absVelocity.x > 0
 
-    isJumping: () ->
-        @player.velocity.y < 0 and not @isGrounded()
+
 

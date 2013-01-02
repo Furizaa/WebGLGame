@@ -16,6 +16,10 @@ BowShock.Component.Entity.CollisionComponent = class ColissionComponent extends 
         @localColliders.push collider
         @getColliders().push collider
 
+    getCollider: ( tag ) ->
+        collider = pointer for pointer in @localColliders when pointer.getTag() is tag
+        collider
+
     collide: ( originColliderTag, withTagName ) ->
         collisions = []
         for localCollider in @localColliders

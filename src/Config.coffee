@@ -25,28 +25,12 @@ BowShock._Config = class _Config
                         },
                         {
                             componentName: "Transform",
-                            componentData:      { x: -50, y: -50, width: 100, height: 100, angle: 0 }
+                            componentData:      { x: 0, y: 0, width: 1000, height: 100, angle: 0 }
                         },
                         {
                             componentName: "Collision",
                             componentData: [
-                                { tag: "CT_WORLD", width: 100, height: 100, offsetx: 0, offsety: 0 }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            componentName: "Sprite",
-                            componentData:      { fileName: "textures/testbox2.png" }
-                        },
-                        {
-                            componentName: "Transform",
-                            componentData:      { x: 50, y: 50, width: 100, height: 100, angle: 0 }
-                        },
-                        {
-                            componentName: "Collision",
-                            componentData: [
-                                { tag: "CT_WORLD", width: 100, height: 100, offsetx: 0, offsety: 0 }
+                                { tag: "CT_WORLD", width: 1000, height: 100, offsetx: 0, offsety: 0 }
                             ]
                         }
                     ]
