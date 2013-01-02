@@ -5,7 +5,7 @@ BowShock.Collider.Collider = class Collider
 
     setEntity: (entity) ->
         @entity = entity
-        if BowShock.debug
+        if BowShock.debugHtml
             @d = $('<div>').addClass('collider ' + @tag)
             $('.debugLayer').append @d
             @d.css

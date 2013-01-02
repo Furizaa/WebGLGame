@@ -4,8 +4,8 @@ BowShock.Component.LayerComponent = class LayerComponent extends BowShock.Compon
         @dependencies = []
         @reset()
 
-    addLayer: ( reference, camera ) ->
-        @layers[ reference ] = new BowShock.Layer( camera ) if not @getLayer( reference )
+    addLayer: ( reference ) ->
+        @layers[ reference ] = new BowShock.Layer() if not @getLayer( reference )
         @layers[ reference ]
 
     reset: () ->

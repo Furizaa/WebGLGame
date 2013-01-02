@@ -15,9 +15,19 @@ BowShock._Config = class _Config
                 height: window.innerHeight
             },
 
-            "level0": {
+            "level-preset": {
+                scene: [
+                        {
+                            componentName: "Layer",
+                            componentData: [
+                                    { name: "LY_BACKDROP", speedX: 0, speedY: 0,   visible: true, active: false },
+                                    { name: "LY_PARALAX",  speedX: 5, speedY: 5,   visible: true, active: false },
+                                    { name: "LY_HOT",      speedX: 10, speedY: 10, visible: true, active: true },
+                                    { name: "LY_FORDERGROUND", speedX: 10, speedY: 10, visible: true, active: false }
+                                ]
+                        }
+                    ],
                 entities: [
-
                     [
                         {
                             componentName: "Sprite",

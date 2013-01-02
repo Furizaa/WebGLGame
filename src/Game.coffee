@@ -26,7 +26,9 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
             document.body.appendChild( @stats.domElement )
 
         level = new Core.Scene.LevelScene()
-        @scenes.activateScene level
+        editor = new Core.Scene.EditorScene()
+
+        @scenes.activateScene level # editor
         @scenes.resolveSceneChanges()
         @
 

@@ -4,6 +4,7 @@ BowShock.Component.SceneComponent = class SceneComponent extends BowShock.Compon
         @dependencies = []
         @toActivate   = null
         @activeScene  = null
+        @loading      = true
 
     init: () ->
         super()
@@ -13,11 +14,17 @@ BowShock.Component.SceneComponent = class SceneComponent extends BowShock.Compon
 
     resolveSceneChanges: () ->
         if @activeScene != @toActivate
+            @loading = true
             @activeScene.unload() if @activeScene
-            @activeScene = @toActivate.load()
+            @toActivate.load ( loadedScene ) =>
+                @activeScene = loadedScene
+                @loading = false
 
     getActiveScene: () ->
         @activeScene
 
     update: ( delta ) ->
-        @getActiveScene().update delta
+        @getActiveScene().update delta if not @loading
+
+    isLoading: () ->
+        @loading

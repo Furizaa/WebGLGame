@@ -6,6 +6,12 @@ BowShock.ComponentFactory = class ComponentFactory
 
 BowShock._ComponentFactory = class _ComponentFactory
 
+    ###
+    Available Callbacks:
+        onLayerComponent
+        onlayer
+    ###
+
     constructor: () ->
 
     buildComponent: ( componentName, componentAssembly ) ->
@@ -16,6 +22,7 @@ BowShock._ComponentFactory = class _ComponentFactory
         buildComponent = new (BowShock.Component[ componentName + "Component" ] || BowShock.Component.Entity[ componentName + "Component" ])
         componentAssembly.addComponent buildComponent, componentName
         buildComponent.init componentAssembly
+
 
     loadJson: ( json, componentAssembly, doneCallback ) ->
         loadMonitor = []
@@ -31,15 +38,27 @@ BowShock._ComponentFactory = class _ComponentFactory
                     doneCallback.call @, componentAssembly if doneCallback
 
 
+    loadJsonLayer: ( json, layerComponent, componentAssembly, doneCallback ) ->
+        @onLayerComponent.call @, layerComponent if @onLayerComponent
+        for l in json
+            layer = layerComponent.addLayer l.name
+            for key, value of l
+                layer[ key ] = value if layer[ key ] != "undefined"
+            @onLayer.call @, layer, l.name if @onLayer
+        doneCallback.call @, "Layer"
+
+
     loadJsonTransform: ( json, transform, componentAssembly, doneCallback ) ->
         transform.setPositionScalar  json.x,     json.y
         transform.setScaleScalar     json.width, json.height
         transform.setRotaion         json.angle
         doneCallback.call @, "Transform"
 
+
     loadJsonSprite: ( json, sprite, componentAssembly, doneCallback ) ->
         sprite.loadFile json.fileName, json.tilesX, json.tilesY, =>
             doneCallback.call @, "Sprite"
+
 
     loadJsonCollision: ( json, collision, componentAssembly, doneCallback ) ->
         for c in json

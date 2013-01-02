@@ -17,9 +17,10 @@ BowShock.Component.CameraComponent = class CameraComponent extends BowShock.Comp
             BowShock.Component.CameraComponent.tcamera = tcamera
         @
 
-    centerOn: (entity) ->
-        @position.x = -entity.getWorldPosition().x + ( BowShock.contextWidth / 2 )
-        @position.y = -entity.getWorldPosition().y + ( BowShock.contextHeight / 2 )
+    centerOn: ( entity ) ->
+        @entityTransform ?= entity.getComponent "Transform"
+        @position.x = -@entityTransform.getPosition().x + ( BowShock.contextWidth / 2 )
+        @position.y = -@entityTransform.getPosition().y + ( BowShock.contextHeight / 2 )
 
     getPosition: () ->
         @position

@@ -1,4 +1,4 @@
-Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Component.ComponentAssembly
+Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Entity
 
     getType: () -> "ET_PLAYER"
 
@@ -45,16 +45,18 @@ Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Component.Compone
 
         if @physics.isGrounded()
             if @isRunning()
-                @animation.play( "move", delta )
+                playerAnimation = "move"
             else if @isSliding()
-                @animation.play( "slide", delta )
+                playerAnimation = "slide"
             else
-                @animation.play( "stand", delta )
+                playerAnimation = "stand"
         else
             if @physics.isJumping()
-                @animation.play( "jump", delta )
+                playerAnimation = "jump"
             if @physics.isFalling()
-                @animation.play( "fall", delta )
+                playerAnimation = "fall"
+
+        @animation.play playerAnimation, delta
 
         @sprite.flipX() if not @isFacingRight() and not @sprite.flip.x
         @sprite.flipX() if     @isFacingRight() and     @sprite.flip.x
