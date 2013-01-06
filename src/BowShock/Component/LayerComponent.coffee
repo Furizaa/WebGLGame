@@ -8,6 +8,11 @@ BowShock.Component.LayerComponent = class LayerComponent extends BowShock.Compon
         @layers[ reference ] = new BowShock.Layer() if not @getLayer( reference )
         @layers[ reference ]
 
+    removeLayer: ( layerObj ) ->
+        for key, value of @layers
+            if value is layerObj
+                delete @layers[ key ]
+
     reset: () ->
         super()
         @layers = []

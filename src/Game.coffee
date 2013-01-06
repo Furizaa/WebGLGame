@@ -28,7 +28,7 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
         level = new Core.Scene.LevelScene()
         editor = new Core.Scene.EditorScene()
 
-        @scenes.activateScene level # editor
+        @scenes.activateScene editor
         @scenes.resolveSceneChanges()
         @
 
@@ -47,3 +47,4 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
     onResize: ( event ) ->
         if @renderer
             @renderer.updateRatio BowShock.contextWidth, BowShock.contextHeight
+            @scenes.getActiveScene()?.reloadScreen()

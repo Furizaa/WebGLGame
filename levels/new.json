@@ -1,0 +1,42 @@
+{
+    "scene": [
+        {
+            "componentName": "LayerComponent",
+            "componentData": [
+                {
+                    "name": "LY_BACKDROP",
+                    "speed": {
+                        "x": "0",
+                        "y": "0"
+                    },
+                    "visible": "true"
+                },
+                {
+                    "name": "LY_PARALAX",
+                    "speed": {
+                        "x": "0.5000000000000001",
+                        "y": "0.5000000000000001"
+                    },
+                    "visible": "true"
+                },
+                {
+                    "name": "LY_HOT",
+                    "speed": {
+                        "x": "1",
+                        "y": "1"
+                    },
+                    "active": "true",
+                    "visible": "true"
+                },
+                {
+                    "name": "LY_FOREGROUND",
+                    "speed": {
+                        "x": "1",
+                        "y": "1"
+                    },
+                    "visible": "true"
+                }
+            ]
+        }
+    ]
+}

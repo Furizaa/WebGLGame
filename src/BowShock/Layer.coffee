@@ -6,8 +6,7 @@ BowShock.Layer = class Layer extends BowShock.Component.ComponentAssembly
         @scene     = new THREE.Scene()
         @visible   = true
         @active    = false
-        @speedX    = 1
-        @speedY    = 1
+        @speed     = new BowShock.Vector2( 1, 1 )
         @camera    = @getComponentFactory().buildComponent "Camera", @
         @
 

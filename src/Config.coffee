@@ -18,7 +18,7 @@ BowShock._Config = class _Config
             "level-preset": {
                 scene: [
                         {
-                            componentName: "Layer",
+                            componentName: "LayerComponent",
                             componentData: [
                                     { name: "LY_BACKDROP", speedX: 0, speedY: 0,   visible: true, active: false },
                                     { name: "LY_PARALAX",  speedX: 5, speedY: 5,   visible: true, active: false },
@@ -30,15 +30,15 @@ BowShock._Config = class _Config
                 entities: [
                     [
                         {
-                            componentName: "Sprite",
+                            componentName: "SpriteComponent",
                             componentData:      { fileName: "textures/testbox2.png" }
                         },
                         {
-                            componentName: "Transform",
+                            componentName: "TransformComponent",
                             componentData:      { x: 0, y: 0, width: 1000, height: 100, angle: 0 }
                         },
                         {
-                            componentName: "Collision",
+                            componentName: "CollisionComponent",
                             componentData: [
                                 { tag: "CT_WORLD", width: 1000, height: 100, offsetx: 0, offsety: 0 }
                             ]

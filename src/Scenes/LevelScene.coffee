@@ -1,6 +1,7 @@
 Core.Scene.LevelScene = class LevelScene extends BowShock.Scene
 
     load: ( doneCallback ) ->
+        super( doneCallback )
         @active = @layers.addLayer "LR_ACTIVE"
         @active.setActive true
 
@@ -13,8 +14,8 @@ Core.Scene.LevelScene = class LevelScene extends BowShock.Scene
             @active.addEntity player
             @active.getCamera().centerOn player
 
-        super( doneCallback )
 
     update: ( delta ) ->
         super delta
         @active.getCamera().centerOn @player
+

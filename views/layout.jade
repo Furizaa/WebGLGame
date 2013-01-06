@@ -22,7 +22,10 @@ html(lang='en')
 
     body
 
+
         .debugLayer
+        canvas#editor
+        .gui
 
         //- This is where the magic happens!
         block container
@@ -31,9 +34,11 @@ html(lang='en')
             script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
             script(src='lib/three.min.js')
             script(src='lib/stats.min.js')
+            script(src='js/Buzz/buzz.js')
             script(src='js/Core.js')
+
             script(src="js/BowShock.js")
-            script(src="js/Config.js")
+            script(src="js/BowShock/JSONSchema.js")
             script(src="js/BowShock/Vector2.js")
             script(src="js/BowShock/Collider/Collider.js")
             script(src="js/BowShock/Collider/RectangleCollider.js")
@@ -59,6 +64,7 @@ html(lang='en')
             script(src="js/BowShock/Scene.js")
             script(src="js/BowShock/Entity.js")
 
+            script(src="js/Config.js")
             script(src="js/Game.js")
 
             script(src="js/Entities/WorldEntity.js")

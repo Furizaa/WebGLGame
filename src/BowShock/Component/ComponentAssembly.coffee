@@ -18,6 +18,9 @@ BowShock.Component.ComponentAssembly = class ComponentAssembly
         if @_components[ componentName ] then return @_components[ componentName ]
         undefined
 
+    getComponentList: () ->
+        @_components
+
     updateComponents: ( delta ) ->
         component.update( delta ) for name, component of @_updateLoop
 
