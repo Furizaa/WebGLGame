@@ -17,7 +17,7 @@ BowShock.Scene = class Scene extends BowShock.Component.ComponentAssembly
     # Overwrite
     load: ( doneCallback ) ->
         @loaded = true
-        doneCallback.call @, @ if doneCallback
+        doneCallback?.call @, @
         @
 
     # Overwrite

@@ -3,12 +3,12 @@ Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Entity
     getType: () -> "ET_PLAYER"
 
     load: ( doneCallback ) ->
-        @transform  = @getComponentFactory().buildComponent( "Transform", @ )
-        @input      = @getComponentFactory().buildComponent( "Input", @ )
-        @collision  = @getComponentFactory().buildComponent( "Collision", @ )
-        @sprite     = @getComponentFactory().buildComponent( "Sprite", @ )
-        @animation  = @getComponentFactory().buildComponent( "SpriteAnimation", @ )
-        @physics    = @getComponentFactory().buildComponent( "PhysicsBody", @ )
+        @transform  = @getComponentFactory().buildComponent( "TransformComponent", @ )
+        @input      = @getComponentFactory().buildComponent( "InputComponent", @ )
+        @collision  = @getComponentFactory().buildComponent( "CollisionComponent", @ )
+        @sprite     = @getComponentFactory().buildComponent( "SpriteComponent", @ )
+        @animation  = @getComponentFactory().buildComponent( "SpriteAnimationComponent", @ )
+        @physics    = @getComponentFactory().buildComponent( "PhysicsBodyComponent", @ )
         @sprite.loadFile "textures/move.png", 16, 16, =>
             @animation.addAnimation "move",  [35..40], 5, true
             @animation.addAnimation "stand", [33],     1
@@ -17,7 +17,7 @@ Core.Entity.PlayerEntity = class PlayerEntity extends BowShock.Entity
             @animation.addAnimation "fall",  [120],    1
             doneCallback.call @, @
 
-        @transform.setPositionScalar 0, -300
+        @transform.setPositionScalar 0, -350
         @transform.setScaleScalar 80, 80
 
         bodyCollider  = new BowShock.Collider.RectangleCollider "CT_BODY",  32,  55,  BowShock.v2(0, 0), true

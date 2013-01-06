@@ -11,10 +11,13 @@ BowShock.Component.LayerComponent = class LayerComponent extends BowShock.Compon
     removeLayer: ( layerObj ) ->
         for key, value of @layers
             if value is layerObj
+                value.reset()
                 delete @layers[ key ]
 
     reset: () ->
         super()
+        if @layers
+            @removeLayer( layer ) for key, layer of @layers
         @layers = []
 
     render: ( renderComponent ) ->

@@ -1,8 +1,8 @@
 BowShock.Component.ComponentAssembly = class ComponentAssembly
 
     constructor: () ->
-        @_components = []
-        @_updateLoop = []
+        @_components = {}
+        @_updateLoop = {}
         @_facory     = BowShock.ComponentFactory.instance()
 
     getComponentFactory: () ->
@@ -17,6 +17,10 @@ BowShock.Component.ComponentAssembly = class ComponentAssembly
     getComponent: ( componentName ) ->
         if @_components[ componentName ] then return @_components[ componentName ]
         undefined
+
+    reset: () ->
+        @_components = {}
+        @
 
     getComponentList: () ->
         @_components

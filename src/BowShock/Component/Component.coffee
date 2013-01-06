@@ -7,9 +7,10 @@ BowShock.Component.Component = class Component
         @parentAssembly = parentAssembly
 
     resolveDependencies: ( dependencies ) ->
-        for dependency in dependencies
-            console.log "Missing dependency:", dependency if not @parentAssembly.getComponent( dependency ) and BowShock.debug
-            @parentAssembly.getComponentFactory().buildComponent dependency, @parentAssembly
+        for dependencyName in dependencies
+            console.log "Missing dependency:", dependencyName if not @parentAssembly.getComponent( dependencyName ) and BowShock.debug
+            dependency = @parentAssembly.getComponentFactory().buildComponent dependencyName, @parentAssembly
+            @onResolveDependency?.call @, dependency, dependencyName if not @parentAssembly.getComponent( dependencyName )
 
     getDependencyComponent: ( dependency ) ->
         @parentAssembly.getComponent( dependency )

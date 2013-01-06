@@ -4,6 +4,9 @@ BowShock.Collider.RectangleCollider = class RectangleCollider extends BowShock.C
         super( @tag, @relative )
         @
 
+    clone: ( ) ->
+        new BowShock.Collider.RectangleCollider @tag, @width, @height, @offset.clone(), @relative
+
     getColliderType: () ->
         "CT_RECT"
 

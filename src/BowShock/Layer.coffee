@@ -22,16 +22,40 @@ BowShock.Layer = class Layer extends BowShock.Component.ComponentAssembly
             entity.update( delta ) for entity in @entities
         @
 
+    reset: () ->
+        @disableEntityRender entity for entity in @entities
+        @entities = []
+
     addEntity: ( entity ) ->
+        entity.layer = @
         @entities.push entity
-        sprite = entity.getComponent( "Sprite" )
-        @scene.add sprite.getSprite() if sprite
-        console.log sprite.getSprite()
+        @enableEntityRender entity
+
+    removeEntity: ( entity ) ->
+        @disableEntityRender entity
+        index = @entities.indexOf entity
+        if index != - 1
+            @entities[ index ].layer = undefined
+            @entities.splice index, 1
+
+
+    enableEntityRender: ( entity ) ->
+        sprite = entity.getComponent( "SpriteComponent" )
+        if sprite
+            @scene.add sprite.getSprite()
+            entity.renderEnabled = true
+        entity
+
+    disableEntityRender: ( entity ) ->
+        sprite = entity.getComponent( "SpriteComponent" )
+        if sprite
+            @scene.remove sprite.getSprite()
+            entity.renderEnabled = false
         entity
 
     _applyCamera: ( entity, camera ) ->
-        tsprite = entity.getComponent( "Sprite" )?.getSprite()
-        position = entity.getComponent( "Transform" ).getPosition()
+        tsprite = entity.getComponent( "SpriteComponent" )?.getSprite()
+        position = entity.getComponent( "TransformComponent" ).getPosition()
         if tsprite
             tsprite.position.x = position.x + camera.getPosition().x
             tsprite.position.y = position.y + camera.getPosition().y

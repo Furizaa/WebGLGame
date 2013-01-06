@@ -2,7 +2,12 @@ BowShock.Entity = class Entity extends BowShock.Component.ComponentAssembly
 
     constructor: () ->
         super()
-        @transform = @getComponentFactory().buildComponent "Transform", @
+        @renderEnabled = false
+        @layer = undefined
+        @getComponentFactory().buildComponent "TransformComponent", @
+
+    clone: () ->
+        new BowShock.Entity()
 
     getType: () ->
         "ET_GENERIC"

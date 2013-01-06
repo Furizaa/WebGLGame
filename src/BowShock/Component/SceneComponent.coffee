@@ -14,10 +14,10 @@ BowShock.Component.SceneComponent = class SceneComponent extends BowShock.Compon
 
     resolveSceneChanges: () ->
         if @activeScene != @toActivate
-            @loading = true
             @activeScene.unload() if @activeScene
+            @activeScene = @toActivate
+            @loading = true
             @toActivate.load ( loadedScene ) =>
-                @activeScene = loadedScene
                 @loading = false
 
     getActiveScene: () ->

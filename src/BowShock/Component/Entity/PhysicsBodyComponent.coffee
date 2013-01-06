@@ -2,7 +2,7 @@ BowShock.Component.Entity.PhysicsBodyComponent = class PhysicsBodyComponent exte
 
     constructor: () ->
         super()
-        @dependencies        = [ "Collision", "Transform" ]
+        @dependencies        = [ "CollisionComponent", "TransformComponent" ]
         @maxMoveSpeed        = 3
         @moveAcceleration    = 35
         @friction            = 0.9
@@ -20,8 +20,8 @@ BowShock.Component.Entity.PhysicsBodyComponent = class PhysicsBodyComponent exte
 
     init: () ->
         super()
-        @collision           = @getDependencyComponent( "Collision" )
-        @transform           = @getDependencyComponent( "Transform" )
+        @collision           = @getDependencyComponent( "CollisionComponent" )
+        @transform           = @getDependencyComponent( "TransformComponent" )
         @
 
     applyPhysics: ( delta ) ->
@@ -52,7 +52,7 @@ BowShock.Component.Entity.PhysicsBodyComponent = class PhysicsBodyComponent exte
             xCollision = false
             while @collision.collide( @bodyColliderTag, "CT_WORLD" ) && @absVelocity.x > 0
                 xCollision = true
-                @transform.getPosition().x -= BowShock.sign @velocity.x, 0.5
+                @transform.getPosition().x -= BowShock.sign @velocity.x, 0.1
 
             @velocity.x = 0 if xCollision
 
@@ -63,13 +63,15 @@ BowShock.Component.Entity.PhysicsBodyComponent = class PhysicsBodyComponent exte
             while @collision.collide( @feetColliderTag, "CT_WORLD" ) && @velocity.y > 0
                 @grounded = true
                 yCollision = true
-                @transform.getPosition().y -= BowShock.sign @velocity.y, 0.5
+                @transform.getPosition().y -= BowShock.sign @velocity.y, 0.1
+
+        BowShock.debug @grounded, 1
 
         # Handle vertical collision in up movement
         if @headColliderTag
             while @collision.collide( @headColliderTag, "CT_WORLD" ) && @absVelocity.y > 0 && @velocity.y < 0
                 yCollision = true
-                @transform.getPosition().y -= BowShock.sign @velocity.y, 0.5
+                @transform.getPosition().y -= BowShock.sign @velocity.y, 0.1
 
         if yCollision
             @velocity.y = 0

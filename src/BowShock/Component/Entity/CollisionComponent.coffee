@@ -9,7 +9,7 @@ BowShock.Component.Entity.CollisionComponent = class ColissionComponent extends 
     constructor: () ->
         @name = "Collision"
         @localColliders = []
-        @dependencies = [ "Transform" ]
+        @dependencies = [ "TransformComponent" ]
 
     registerCollider: ( collider ) ->
         collider.setEntity   @parentAssembly
@@ -42,3 +42,12 @@ BowShock.Component.Entity.CollisionComponent = class ColissionComponent extends 
     getColliders: () -> BowShock.Component.Entity.CollisionComponent.colliders
 
     getActiveTypes: () -> BowShock.Component.Entity.CollisionComponent.activeTypes
+
+    clone: ( parentAssembly, doneCallback ) ->
+        console.log "CLONE COLLISION"
+        clone = new BowShock.Component.Entity.CollisionComponent()
+        clone.parentAssembly = parentAssembly
+        for collider in @localColliders
+            clone.registerCollider collider.clone()
+        doneCallback?.call @, clone, "CollisionComponent"
+

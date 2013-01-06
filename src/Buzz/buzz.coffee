@@ -188,9 +188,24 @@ NumberController
 ###
 class Buzz.NumberController extends Buzz.TextController
 
+    constructor: (@parent, desc, @$el) ->
+        super @parent, desc, @$el
+        @$el.children('span').on 'mousedown', (event) =>
+            $clickX = event.screenX
+            $(window).on 'mouseup', (event) =>
+                $(window).off 'mouseup mousemove'
+            $(window).on 'mousemove', (event) =>
+                event.preventDefault()
+                offset  = event.screenX - $clickX
+                $clickX = event.screenX
+                @value =  @value + offset
+                @_update()
+                @_onChange?.call @, @value, @_onChangeParams
+
     _update: () ->
-        if typeof @value != "number" then @value = ""
-        @value = Math.max( @_min, Math.min( @_max, @value ) ) #Clamp
+        if typeof @value != "number" then @value = parseFloat(@value)
+        if @_min != undefined and @_max != undefined
+            @value = Math.max( @_min, Math.min( @_max, @value ) ) #Clamp
         @$text.attr 'value', @value
         @
 

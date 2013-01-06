@@ -5,7 +5,6 @@ BowShock.Component.CameraComponent = class CameraComponent extends BowShock.Comp
 
     constructor: () ->
         super()
-        @name = "Camera"
         @dependencies = []
 
     init: () ->
@@ -18,7 +17,7 @@ BowShock.Component.CameraComponent = class CameraComponent extends BowShock.Comp
         @
 
     centerOn: ( entity ) ->
-        @entityTransform ?= entity.getComponent "Transform"
+        @entityTransform ?= entity.getComponent "TransformComponent"
         @position.x = -@entityTransform.getPosition().x + ( BowShock.contextWidth / 2 )
         @position.y = -@entityTransform.getPosition().y + ( BowShock.contextHeight / 2 )
 

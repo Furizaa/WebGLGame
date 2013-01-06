@@ -4,21 +4,36 @@ BowShock.Component.Entity.SpriteComponent = class SpriteComponent extends BowSho
     @materials: []
 
     constructor: () ->
-        @dependencies = [ "Transform" ]
+        @dependencies = [ "TransformComponent" ]
         @loaded       = false
+        @tilesX       = 1
+        @tilesY       = 1
+        @tile         = 0
         @flip =
             x: false
             y: false
 
+    clone: ( parentAssembly, doneCallback ) ->
+        console.log "CLONE SPRITE"
+        clone = new BowShock.Component.Entity.SpriteComponent()
+        clone.loaded = false
+        clone.tilesX = @tilesX
+        clone.tilesY = @tilesY
+        clone.tile   = @tile
+        clone.fileName = @fileName
+        if clone.fileName
+            clone.loadFile clone.fileName, clone.tilesX, clone.tilesY, ->
+                doneCallback?.call @, clone, "SpriteComponent"
+        clone
+
     # Update: Bind values to necessary sibling Transform component
     update: ( delta ) ->
         if not @loaded then return @
-        transform = @getDependencyComponent "Transform"
+        transform = @getDependencyComponent "TransformComponent"
         @setPosition transform.getPosition()
         @setScale    transform.getScale()
 
     loadFile: ( @fileName, @tilesX, @tilesY, callbackDone ) ->
-        console.log @fileName, "Load Sprite" if BowShock.debug
         map = THREE.ImageUtils.loadTexture @fileName, undefined, =>
             map.magFilter = THREE.NearestFilter
             map.minFilter = THREE.LinearMipMapLinearFilter
@@ -30,8 +45,8 @@ BowShock.Component.Entity.SpriteComponent = class SpriteComponent extends BowSho
                 @getMaterial().alignment = THREE.SpriteAlignment.center
 
             if @tilesX and @tilesY
-                @getMaterial().uvScale.set( 1 / tilesX, 1 / tilesY )
-                @setTile 0
+                @setTiles @tilesX, @tilesY
+                @setTile @tile
 
             @tsprite = new THREE.Sprite @getMaterial()
 
@@ -40,9 +55,12 @@ BowShock.Component.Entity.SpriteComponent = class SpriteComponent extends BowSho
             @tsprite.opacity = 1
             @tsprite.position.normalize()
 
-            callbackDone.call @
+            callbackDone?.call @
             @loaded = true
             @
+
+    setTiles: ( @tilesX, @tilesY ) ->
+        @getMaterial().uvScale.set( 1 / tilesX, 1 / tilesY )
 
     setPosition: ( vector ) ->
         if @loaded
@@ -73,13 +91,13 @@ BowShock.Component.Entity.SpriteComponent = class SpriteComponent extends BowSho
         @tsprite.scale.y = -@tsprite.scale.y
         @
 
-    setTile: ( tile ) ->
+    setTile: ( @tile ) ->
         if not @tilesX or not @tilesY then return @
-        tileX = tile % @tilesX
-        tileY = Math.round( (tile / @tilesX) - .5 ) + 1
+        tileX = @tile % @tilesX
+        tileY = Math.round( (@tile / @tilesX) - .5 ) + 1
         uvX   = 1 / @tilesX * tileX
         uvY   = 1 - (1 / @tilesY) * tileY
-        @getMaterial().uvOffset.set uvX, uvY
+        @getMaterial().uvOffset.set uvX, uvY if @getMaterial()
         @
 
     getSprite: () -> @tsprite

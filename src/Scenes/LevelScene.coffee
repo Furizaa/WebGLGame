@@ -1,18 +1,21 @@
 Core.Scene.LevelScene = class LevelScene extends BowShock.Scene
 
     load: ( doneCallback ) ->
-        super( doneCallback )
-        @active = @layers.addLayer "LR_ACTIVE"
-        @active.setActive true
+        console.log "LOAD"
+        $.getJSON '/level/new.json', ( jsonLevel ) =>
+            if not jsonLevel.scene then return
+            loader = new BowShock.LevelLoader @
+            loader.load jsonLevel, =>
 
-        level = BowShock.Config.instance().get()[ "level-preset" ]
-        for entity in level.entities
-            @getComponentFactory().loadJson entity, new Core.Entity.WorldEntity(), ( entity ) =>
-                @active.addEntity entity
+                @active = @layers.getLayer( "LY_HOT" )
+                @active.active = true
 
-        @player = new Core.Entity.PlayerEntity().load ( player ) =>
-            @active.addEntity player
-            @active.getCamera().centerOn player
+                @player = new Core.Entity.PlayerEntity().load ( player ) =>
+                    @active.addEntity player
+                    @active.enableEntityRender entity for entity in @active.entities
+                    @active.getCamera().centerOn player
+
+                    super( doneCallback )
 
 
     update: ( delta ) ->

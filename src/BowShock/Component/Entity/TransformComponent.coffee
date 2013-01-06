@@ -6,9 +6,6 @@ BowShock.Component.Entity.TransformComponent = class TransformComponent extends 
         @scale    = new BowShock.Vector2 0, 0
         @rotation = 0
 
-    saveJson: () ->
-        #todo
-
     getPosition: () ->
         @position
 
@@ -38,5 +35,17 @@ BowShock.Component.Entity.TransformComponent = class TransformComponent extends 
 
     setRotaion: ( rotation ) ->
         @rotation = rotation
+
+    getProjected: ( camera ) ->
+        @position.clone().addSelf camera.getPosition()
+
+    clone: ( parentAssembly, doneCallback ) ->
+        console.log "CLONE TRANSFORM"
+        clone = new BowShock.Component.Entity.TransformComponent()
+        clone.position  = @position.clone()
+        clone.scale     = @scale.clone()
+        clone.rotation  = @rotation
+        doneCallback?.call @, clone, "TransformComponent"
+
 
 

@@ -21,7 +21,7 @@ BowShock.Collider.Collider = class Collider
         @tag
 
     getEntityTransform: () ->
-        @entityTransform ?= @entity.getComponent( "Transform" )
+        @entityTransform ?= @entity.getComponent( "TransformComponent" )
 
     getEntityPosition: () ->
         if @entity then @getEntityTransform().getPosition() else new BowShock.Vector2(0, 0)

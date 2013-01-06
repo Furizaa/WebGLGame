@@ -28,7 +28,7 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
         level = new Core.Scene.LevelScene()
         editor = new Core.Scene.EditorScene()
 
-        @scenes.activateScene editor
+        @scenes.activateScene level
         @scenes.resolveSceneChanges()
         @
 
@@ -42,7 +42,7 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
         @stats.end()
 
     render: () ->
-        @scenes.getActiveScene().render @renderer
+        @scenes.getActiveScene()?.render @renderer
 
     onResize: ( event ) ->
         if @renderer
