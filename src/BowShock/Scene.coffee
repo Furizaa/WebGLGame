@@ -4,8 +4,8 @@ BowShock.Scene = class Scene extends BowShock.Component.ComponentAssembly
 
     constructor: () ->
         super()
-        @layers   = @getComponentFactory().buildComponent "Layer", @
-        @input    = @getComponentFactory().buildComponent "Input", @
+        @layers   = @getComponentFactory().buildComponent "LayerComponent", @
+        @input    = @getComponentFactory().buildComponent "InputComponent", @
 
     render: ( renderComponent ) ->
         @layers.render renderComponent if @loaded

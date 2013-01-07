@@ -24,6 +24,8 @@ Core.Scene.EditorScene = class EditorScene extends BowShock.Scene
         @factory         = @getComponentFactory()
         @canvas          = document.getElementById('editor')
         @mouse           = new BowShock.Vector2( 0, 0 )
+        @keyboard        = @getComponent "InputComponent"
+        @look            = new BowShock.Vector2( 0, 0 )
         @$canvas         = $( @canvas )
         @$window         = $( window )
         @$canvas.on 'mousemove', ( event ) =>
@@ -86,6 +88,16 @@ Core.Scene.EditorScene = class EditorScene extends BowShock.Scene
                 @hovered = undefined
 
         if @hovered then @wrapEntity @hovered, "red"
+
+        @look.set 0, 0
+        @look.y = 1  if @keyboard.isKeyHeld BowShock.KEY_UP
+        @look.y = -1 if @keyboard.isKeyHeld BowShock.KEY_DOWN
+        @look.x = 1 if @keyboard.isKeyHeld BowShock.KEY_LEFT
+        @look.x = -1 if @keyboard.isKeyHeld BowShock.KEY_RIGHT
+        for key, layer of @layers.layers
+            layer.camera.getPosition().x += layer.speed.x * @look.x * 5
+            layer.camera.getPosition().y += layer.speed.y * @look.y * 5
+
 
 
 
@@ -262,7 +274,8 @@ Core.Scene.EditorScene = class EditorScene extends BowShock.Scene
             if not jsonLevel.scene then return
             @layersController.clear "Radio"
             @layerController.clear()
-            @loader.load jsonLevel
+            @getComponentFactory().loadJson jsonLevel.scene, @
+            @loadingMonitor = @getComponentFactory().getMonitor()
 
     ###
     LAYER HANDLING

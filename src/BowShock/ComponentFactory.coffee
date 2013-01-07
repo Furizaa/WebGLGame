@@ -13,6 +13,11 @@ BowShock._ComponentFactory = class _ComponentFactory
     ###
 
     constructor: () ->
+        @monitor = new BowShock.LoadingMonitor()
+        @JSON = BowShock.JSONSchema
+
+    getMonitor: () ->
+        @monitor
 
     ###
     GENERAL
@@ -22,8 +27,6 @@ BowShock._ComponentFactory = class _ComponentFactory
         if componentAssembly.getComponent componentName
             return componentAssembly.getComponent componentName
 
-        if not /Component$/.test componentName then componentName += "Component"
-        #console.log "BUILD", componentName if BowShock.debug
         buildComponent = new (BowShock.Component[ componentName ] || BowShock.Component.Entity[ componentName ])
         componentAssembly.addComponent buildComponent, componentName
         buildComponent.onResolveDependency = onResolveDependency
@@ -31,20 +34,11 @@ BowShock._ComponentFactory = class _ComponentFactory
 
 
     loadJson: ( json, componentAssembly, doneCallback ) ->
-        loadMonitor = []
-        loadMonitor[ name.componentName ] = false for name in json
-        console.log "START LOADING OF ", loadMonitor
         for entry in json
             component = @buildComponent entry.componentName, componentAssembly
-            @[ "loadJson" + entry.componentName ]?.call @, entry.componentData, component, componentAssembly, ( name ) =>
-                loadMonitor[ name ] = true
-                console.log "--- PROGRESS ", name, loadMonitor
-                allLoaded = true
-                for key, value of loadMonitor
-                    allLoaded = false if not value
-                if allLoaded
-                    console.log "------- SUCCESS "
-                    doneCallback?.call @, componentAssembly
+            method    = @[ "loadJson" + entry.componentName ]
+            @monitor.register method, @, entry.componentData, component, componentAssembly
+
 
     saveJson: ( componentAssembly ) ->
         components = componentAssembly.getComponentList()
@@ -66,13 +60,7 @@ BowShock._ComponentFactory = class _ComponentFactory
         for name, component of assembly.getComponentList()
             component.clone clone, ( componentClone, name ) ->
                 clone.addComponent componentClone, name
-                cloneMonitor[ name ] = true
-                console.log cloneMonitor, name
-                allLoaded = true
-                for key, value of cloneMonitor
-                    allLoaded = false if not value
-                if allLoaded
-                    doneCallback?.call @, clone
+                doneCallback?.call @, clone
         clone
 
     ###
@@ -84,7 +72,7 @@ BowShock._ComponentFactory = class _ComponentFactory
         for name, layer of layerComponent.layers
             entry = {}
             entry[ "name" ] = name
-            $.extend entry, BowShock.JSONSchema.Layer( layer )
+            $.extend entry, @JSON.serializeLayer( layer )
             entry[ "entities" ] = []
             entry[ "entities" ].push( @saveJson( entity ) ) for entity in layer.entities
             result.push entry
@@ -95,40 +83,40 @@ BowShock._ComponentFactory = class _ComponentFactory
         for l in json
             layer = layerComponent.addLayer l.name
             for key, value of l
-                layer[ key ] = BowShock.JSONSchema.thaw( value ) if key != "entities"
+                layer[ key ] = @JSON.thaw( value ) if key != "entities"
             @onLayer?.call @, layer, l.name
             for entityjson in l.entities || []
                 entity = new Core.Entity.WorldEntity()
                 @loadJson entityjson, entity
                 layer.addEntity entity
                 @onEntity?.call @, layer, entity
-        doneCallback.call @, "LayerComponent"
+        doneCallback.call @,
 
     ###
     TRANSFORM
     ###
 
     saveJsonTransformComponent: ( transformComponent ) ->
-        BowShock.JSONSchema.Transform transformComponent
+        @JSON.serializeTransform transformComponent
 
     loadJsonTransformComponent: ( json, transform, componentAssembly, doneCallback ) ->
-        transform.setPositionScalar  BowShock.JSONSchema.thaw( json.position.x ), BowShock.JSONSchema.thaw( json.position.y )
-        transform.setScaleScalar     BowShock.JSONSchema.thaw( json.scale.x ), BowShock.JSONSchema.thaw( json.scale.y )
-        transform.setRotaion         BowShock.JSONSchema.thaw( json.rotation )
-        doneCallback.call @, "TransformComponent"
+        transform.setPositionScalar  @JSON.thaw( json.position.x ), @JSON.thaw( json.position.y )
+        transform.setScaleScalar     @JSON.thaw( json.scale.x ), @JSON.thaw( json.scale.y )
+        transform.setRotaion         @JSON.thaw( json.rotation )
+        doneCallback.call @
 
     ###
     SPRITE
     ###
 
     saveJsonSpriteComponent: ( spriteComponent ) ->
-        BowShock.JSONSchema.Sprite spriteComponent
+        @JSON.serializeSprite spriteComponent
 
     loadJsonSpriteComponent: ( json, sprite, componentAssembly, doneCallback ) ->
         sprite.setTile json.tile
         sprite.loadFile json.fileName, json.tilesX, json.tilesY, =>
             @onSprite?.call @, sprite
-            doneCallback.call @, "SpriteComponent"
+            doneCallback.call @
 
 
     ###
@@ -138,15 +126,15 @@ BowShock._ComponentFactory = class _ComponentFactory
     saveJsonCollisionComponent: ( collisionComponent ) ->
         result = []
         for collider in collisionComponent.localColliders
-            result.push BowShock.JSONSchema.RectCollider collider
+            result.push @JSON.serializeRectCollider collider
         result
 
     loadJsonCollisionComponent: ( json, collisionComponent, componentAssembly, doneCallback ) ->
         @onCollisionComponent?.call @, collisionComponent
         if not json then return
         for e in json
-            v = new BowShock.Vector2 BowShock.JSONSchema.thaw(e.offset.x), BowShock.JSONSchema.thaw(e.offset.y)
-            collider = new BowShock.Collider.RectangleCollider e.tag, BowShock.JSONSchema.thaw(e.width), BowShock.JSONSchema.thaw(e.height), v, true
+            v = @JSON.deSerializeVector2 e.offset
+            collider = new BowShock.Collider.RectangleCollider e.tag, @JSON.thaw(e.width), @JSON.thaw(e.height), v, true
             collisionComponent.registerCollider collider
             @onCollider?.call @, collider, collisionComponent, componentAssembly
-        doneCallback.call @, "CollisionComponent"
+        doneCallback.call @

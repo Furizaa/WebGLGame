@@ -12,7 +12,7 @@ window.BowShock = class BowShock
     @v2: (x, y) ->
         return new BowShock.Vector2(x, y)
 
-    @debugHtml = true
+    @debugHtml = false
 
     @debug: (text, layer = 1) ->
         $('.debug'+layer).text text

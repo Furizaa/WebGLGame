@@ -21,10 +21,10 @@ BowShock.Component.LayerComponent = class LayerComponent extends BowShock.Compon
         @layers = []
 
     render: ( renderComponent ) ->
-        layer.render( renderComponent.getRenderer(), layer.camera ) for name, layer of @layers when layer.isVisible()
+        layer.render( renderComponent.getRenderer() ) for name, layer of @layers when layer.isVisible()
 
     update: ( delta ) ->
-        layer.update( delta ) for name, layer of @layers when layer.isActive()
+        layer.update( delta ) for name, layer of @layers
 
     getLayer: ( reference ) ->
         if @layers[ reference ] then return @layers[ reference ]

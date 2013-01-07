@@ -6,9 +6,9 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
         @clock    = new THREE.Clock()
 
     init: (width, height) ->
-        @renderer = @getComponentFactory().buildComponent "Render", @
-        @scenes   = @getComponentFactory().buildComponent "Scene", @
-        @input    = @getComponentFactory().buildComponent "Input", @
+        @renderer = @getComponentFactory().buildComponent "RenderComponent", @
+        @scenes   = @getComponentFactory().buildComponent "SceneComponent", @
+        @input    = @getComponentFactory().buildComponent "InputComponent", @
 
         @renderer.initDom()
 
@@ -28,7 +28,7 @@ BowShock.Game = class Game extends BowShock.Component.ComponentAssembly
         level = new Core.Scene.LevelScene()
         editor = new Core.Scene.EditorScene()
 
-        @scenes.activateScene level
+        @scenes.activateScene editor
         @scenes.resolveSceneChanges()
         @
 

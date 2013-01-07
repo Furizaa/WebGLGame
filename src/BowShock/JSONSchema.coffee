@@ -10,35 +10,41 @@ BowShock.JSONSchema = class JSONSchema
             return false
         return value
 
-    @Vector2: ( v ) ->
+    @serializeVector2: ( v ) ->
         return obj =
             x: v.x
             y: v.y
 
-    @Layer: ( layer ) ->
+    @deSerializeVector2: ( j ) ->
+        v = new BowShock.Vector2( 0, 0 )
+        v.x = BowShock.JSONSchema.thaw( j.x )
+        v.y = BowShock.JSONSchema.thaw( j.y )
+        v
+
+    @serializeLayer: ( layer ) ->
         return obj =
-            speed:   BowShock.JSONSchema.Vector2 layer.speed
+            speed:   BowShock.JSONSchema.serializeVector2 layer.speed
             active:  layer.active
             visible: layer.visible
 
-    @Transform: ( transform ) ->
+    @serializeTransform: ( transform ) ->
         return obj =
-            position: BowShock.JSONSchema.Vector2 transform.getPosition()
-            scale: BowShock.JSONSchema.Vector2 transform.getScale()
+            position: BowShock.JSONSchema.serializeVector2 transform.getPosition()
+            scale: BowShock.JSONSchema.serializeVector2 transform.getScale()
             rotation: transform.getRotation()
 
-    @Sprite: ( sprite ) ->
+    @serializeSprite: ( sprite ) ->
         return obj =
             fileName: sprite.fileName
             tilesX: sprite.tilesX
             tilesY: sprite.tilesY
             tile: sprite.tile
 
-    @RectCollider: ( collider ) ->
+    @serializeRectCollider: ( collider ) ->
         return obj =
             width: collider.width
             height: collider.height
-            offset: BowShock.JSONSchema.Vector2 collider.offset
+            offset: BowShock.JSONSchema.serializeVector2 collider.offset
             tag: collider.tag
 
 
