@@ -2,12 +2,21 @@ BowShock.Layer = class Layer extends BowShock.Component.ComponentAssembly
 
     constructor: () ->
         super()
-        @entities  = []
-        @scene     = new THREE.Scene()
-        @visible   = true
-        @active    = false
-        @speed     = new BowShock.Vector2( 1, 1 )
-        @camera    = @getComponentFactory().buildComponent "CameraComponent", @
+        @entities    = []
+        @scene       = new THREE.Scene()
+        @visible     = true
+
+        # Is layer recieving events?
+        @active      = false
+
+        # Is layer the main layer?
+        @main        = false
+
+        # Render hiarchy
+        @renderIndex = 0
+
+        @speed       = new BowShock.Vector2( 1, 1 )
+        @camera      = @getComponentFactory().buildComponent "CameraComponent", @
         @
 
     render: ( renderer ) ->
@@ -38,7 +47,6 @@ BowShock.Layer = class Layer extends BowShock.Component.ComponentAssembly
             @entities[ index ].layer = undefined
             @entities.splice index, 1
 
-
     enableEntityRender: ( entity ) ->
         sprite = entity.getComponent( "SpriteComponent" )
         if sprite
@@ -66,8 +74,14 @@ BowShock.Layer = class Layer extends BowShock.Component.ComponentAssembly
     isActive: () ->
         @active
 
+    isMain: () ->
+        @main
+
     setActive: ( flag ) ->
         @active = flag
+
+    setMain: ( flag ) ->
+        @main ) flag
 
     getCamera: () ->
         @camera
